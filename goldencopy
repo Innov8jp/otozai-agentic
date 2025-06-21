@@ -2196,6 +2196,45 @@
     </style>
 </head>
 <body>
+</head>
+<body>
+<div class="popup-overlay" id="existing-customer-portal">
+    <div class="customer-info-popup" style="max-width: 500px;">
+        <div class="popup-header">
+            <h3>🎯 Existing Customer Portal</h3>
+            <p>Access your AI agents for order updates and support</p>
+        </div>
+
+        <div style="margin: 25px 0;">
+            <div class="form-group">
+                <label class="form-label">Vehicle ID / Order Number</label>
+                <input type="text" class="form-input" id="customer-vehicle-id" placeholder="Enter your vehicle ID or order number" style="color: #1e293b;">
+            </div>
+        </div>
+
+        <div style="margin: 25px 0;">
+            <h4 style="color: #1e293b; margin-bottom: 15px;">🤖 Select Your AI Agent</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <button onclick="accessAgent('sparky')" style="padding: 15px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                    👨‍💼 Sparky<br><small>Negotiation Status</small>
+                </button>
+                <button onclick="accessAgent('inspector')" style="padding: 15px; background: linear-gradient(135deg, #06b6d4, #0891b2); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                    👩‍🔬 Inspector<br><small>Quality Report</small>
+                </button>
+                <button onclick="accessAgent('penny')" style="padding: 15px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                    👩‍💼 Penny<br><small>Payment Status</small>
+                </button>
+                <button onclick="accessAgent('captain')" style="padding: 15px; background: linear-gradient(135deg, #059669, #047857); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                    👨‍✈️ Captain<br><small>Shipping Tracker</small>
+                </button>
+            </div>
+        </div>
+
+        <div class="popup-actions">
+            <button type="button" class="popup-btn popup-btn-secondary" onclick="closeExistingCustomerPortal()">Close</button>
+        </div>
+    </div>
+</div>
     <div class="notification-overlay" id="notification-overlay">
         <div class="notification-popup" id="notification-popup">
             <div class="notification-header">
