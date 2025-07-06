@@ -230,7 +230,6 @@
         .game-start-controls {
             margin-top: 2rem;
             display: flex;
-            flex-direction: column;
             align-items: center;
             gap: 1rem;
         }
@@ -453,63 +452,123 @@
         }
 
         .demo-container.active {
-            display: flex; /* Changed for new layout */
+            display: block;
         }
 
-        /* Preferences Section */
-        .preferences-section {
-            width: 100%;
-            height: 100vh;
+        /* Preferences Quiz Section */
+        #preferences-quiz {
             background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #1e293b 50%, #0f172a 100%);
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
+            perspective: 1000px;
         }
-
-        .preferences-section.active {
+        #preferences-quiz.active {
             display: flex;
         }
 
-        .preferences-content {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-            color: white;
-        }
-
-        .preference-card {
-            background: rgba(255, 255, 255, 0.1);
+        .quiz-card {
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            position: absolute;
+            transition: transform 0.6s, opacity 0.6s;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            transform: rotateY(-180deg);
+            opacity: 0;
         }
 
-        .car-filters {
+        .quiz-card.active {
+            transform: rotateY(0);
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .quiz-card.previous {
+            transform: rotateY(180deg);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .quiz-card h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
             gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         }
 
-        .filter-select {
-            background: rgba(255, 255, 255, 0.2);
+        .option-btn {
+            background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 12px;
-            border-radius: 8px;
-            width: 100%;
-            font-size: 16px;
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .option-btn svg {
+            width: 40px;
+            height: 40px;
+            stroke: #93c5fd;
         }
 
-        .filter-select option {
-            background: #667eea;
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #93c5fd;
+        }
+        .option-btn.selected {
+            background: #60a5fa;
             color: white;
+            font-weight: bold;
+            border-color: #60a5fa;
+        }
+        .option-btn.selected svg {
+            stroke: white;
+        }
+        
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .color-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .color-dot:hover {
+            transform: scale(1.1);
+        }
+        .color-dot.selected {
+            border-color: #60a5fa;
         }
 
+        .quiz-nav {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
         .slider {
             -webkit-appearance: none;
             width: 100%;
@@ -580,6 +639,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .swipe-card {
@@ -589,18 +649,25 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             max-width: 500px;
             width: 100%;
-            position: relative;
-            transition: transform 0.3s, opacity 0.3s;
+            position: absolute;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
         }
+        
+        .swipe-card:nth-child(1) { z-index: 5; }
+        .swipe-card:nth-child(2) { z-index: 4; transform: translateY(10px) scale(0.95); opacity: 0.8; }
+        .swipe-card:nth-child(3) { z-index: 3; transform: translateY(20px) scale(0.9); opacity: 0.6; }
+        .swipe-card:nth-child(4) { z-index: 2; transform: translateY(30px) scale(0.85); opacity: 0.4; }
+        .swipe-card:nth-child(5) { z-index: 1; transform: translateY(40px) scale(0.8); opacity: 0.2; }
+
 
         .swipe-card.swiping-left {
-            transform: translateX(-150%) rotate(-30deg);
-            opacity: 0;
+            transform: translateX(-150%) rotate(-30deg) !important;
+            opacity: 0 !important;
         }
 
         .swipe-card.swiping-right {
-            transform: translateX(150%) rotate(30deg);
-            opacity: 0;
+            transform: translateX(150%) rotate(30deg) !important;
+            opacity: 0 !important;
         }
 
         .swipe-header {
@@ -1185,6 +1252,57 @@
             font-size: 1.2em;
             color: #06b6d4;
         }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+            .hero-content {
+                padding: 10px;
+            }
+            .company-logo {
+                font-size: 2.5rem;
+            }
+            .tagline {
+                font-size: 1.2rem;
+            }
+            .agent-carousel {
+                width: 90vw;
+                height: 90vw;
+            }
+            .car-filters {
+                grid-template-columns: 1fr;
+            }
+            #dashboard-wrapper {
+                flex-direction: column;
+            }
+            #agent-nav-sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            .agent-nav-list {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+            }
+            .agent-nav-item .agent-nav-info {
+                display: none;
+            }
+            .sidebar-footer {
+                display: none;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            #penny-dashboard .service-grid {
+                 grid-template-columns: 1fr;
+            }
+        }
 
     </style>
 </head>
@@ -1361,29 +1479,80 @@
     </div>
 
     <!-- Preferences Section -->
-    <div class="preferences-section" id="preferences-section">
-        <div class="preferences-content">
-            <h2 style="font-size: 2rem; margin-bottom: 2rem;">🤖 Hi! I'm Sparky, Your AI Car Expert</h2>
-            <p style="margin-bottom: 2rem;">Let me find the perfect car for you! Tell me your preferences...</p>
-            <div class="preference-card">
-                <h3>🚗 Select Your Preferred Vehicle</h3>
-                <div class="car-filters">
-                    <div><label style="display: block; margin-bottom: 5px;">Make</label><select class="filter-select" id="make-filter"><option value="">Any Make</option><option value="Toyota">Toyota</option><option value="Honda">Honda</option><option value="BMW">BMW</option><option value="Mercedes">Mercedes</option><option value="Audi">Audi</option></select></div>
-                    <div><label style="display: block; margin-bottom: 5px;">Model</label><select class="filter-select" id="model-filter"><option value="">Any Model</option></select></div>
-                    <div><label style="display: block; margin-bottom: 5px;">Year</label><select class="filter-select" id="year-filter"><option value="">Any Year</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option></select></div>
+    <div class="fullscreen-section" id="preferences-quiz">
+        <div class="quiz-card active" data-quiz-step="1">
+            <h2>What type of car are you looking for?</h2>
+            <div class="option-grid">
+                <button class="option-btn" data-value="Sedan">Sedan</button>
+                <button class="option-btn" data-value="SUV">SUV</button>
+                <button class="option-btn" data-value="Hatchback">Hatchback</button>
+                <button class="option-btn" data-value="Coupe">Coupe</button>
+            </div>
+            <div class="quiz-nav">
+                <button class="quick-btn" onclick="goToQuizStep(0)" disabled>Back</button>
+                <button class="quick-btn primary" onclick="goToQuizStep(2)">Next</button>
+            </div>
+        </div>
+        <div class="quiz-card" data-quiz-step="2">
+            <h2>Any preferred makers?</h2>
+            <div class="option-grid">
+                <button class="option-btn" data-value="Toyota">Toyota</button>
+                <button class="option-btn" data-value="Honda">Honda</button>
+                <button class="option-btn" data-value="BMW">BMW</button>
+                <button class="option-btn" data-value="Mercedes">Mercedes</button>
+                <button class="option-btn" data-value="Audi">Audi</button>
+                <button class="option-btn" data-value="">Any</button>
+            </div>
+             <div class="quiz-nav">
+                <button class="quick-btn" onclick="goToQuizStep(1)">Back</button>
+                <button class="quick-btn primary" onclick="goToQuizStep(3)">Next</button>
+            </div>
+        </div>
+        <div class="quiz-card" data-quiz-step="3">
+            <h2>Select a model and year range.</h2>
+            <div class="option-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <label class="form-label">Model</label>
+                     <select class="filter-select" id="quiz-model-filter">
+                        <option value="">Any Model</option>
+                    </select>
+                </div>
+                 <div>
+                    <label class="form-label">Year</label>
+                     <select class="filter-select" id="quiz-year-filter">
+                        <option value="">Any Year</option>
+                        <option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option>
+                    </select>
                 </div>
             </div>
-            <div class="preference-card">
-                <h3>📏 Preferred mileage range?</h3>
-                <input type="range" class="slider" id="mileage-slider" min="10000" max="150000" value="50000">
-                <p id="mileage-display">50,000 km</p>
+             <div class="quiz-nav">
+                <button class="quick-btn" onclick="goToQuizStep(2)">Back</button>
+                <button class="quick-btn primary" onclick="goToQuizStep(4)">Next</button>
             </div>
-            <div class="preference-card">
-                <h3>💰 What's your budget?</h3>
-                <input type="range" class="slider" id="budget-slider" min="5000" max="50000" value="25000">
-                <p id="budget-display">$25,000</p>
+        </div>
+         <div class="quiz-card" data-quiz-step="4">
+            <h2>Choose a color.</h2>
+            <div class="color-palette">
+                <div class="color-dot" style="background: #000000;" data-value="Black"></div>
+                <div class="color-dot" style="background: #FFFFFF; border: 1px solid #ddd" data-value="White"></div>
+                <div class="color-dot" style="background: #A9A9A9;" data-value="Silver"></div>
+                <div class="color-dot" style="background: #808080;" data-value="Gray"></div>
+                <div class="color-dot" style="background: #0000FF;" data-value="Blue"></div>
+                <div class="color-dot" style="background: #FF0000;" data-value="Red"></div>
             </div>
-            <button class="find-cars-btn" id="find-cars-btn">⚡ Find My Perfect Cars</button>
+             <div class="quiz-nav">
+                <button class="quick-btn" onclick="goToQuizStep(3)">Back</button>
+                <button class="quick-btn primary" onclick="goToQuizStep(5)">Next</button>
+            </div>
+        </div>
+        <div class="quiz-card" data-quiz-step="5">
+            <h2>What's your budget?</h2>
+            <input type="range" class="slider" id="quiz-budget-slider" min="5000" max="100000" value="30000">
+            <p id="quiz-budget-display" style="font-size: 2rem; font-weight: bold;">$30,000</p>
+             <div class="quiz-nav">
+                <button class="quick-btn" onclick="goToQuizStep(4)">Back</button>
+                <button class="find-cars-btn" id="find-cars-from-quiz-btn">Find My Cars</button>
+            </div>
         </div>
     </div>
 
@@ -1399,7 +1568,7 @@
             </div>
         </div>
         <div style="text-align: center; margin-top: 2rem;">
-            <button class="quick-btn" id="back-to-prefs-btn" style="background: white; color: #06b6d4; padding: 12px 24px;">← Change Preferences</button>
+            <button class="quick-btn" id="back-to-prefs-btn" style="background: white; color: #06b6d4; padding: 12px 24px;">← Back to Quiz</button>
         </div>
     </div>
     
@@ -1576,12 +1745,37 @@ const orderLedger = {
 
 // --- MOCK DATA ---
 const cars = [
+    // Toyota
     { id: 1, make: 'Toyota', model: 'Camry', year: 2020, name: '2020 Toyota Camry', price: 18500, mileage: 45000, engine: '2.5L I4', condition: 'Excellent', image: '🚗' },
+    { id: 6, make: 'Toyota', model: 'Corolla', year: 2021, name: '2021 Toyota Corolla', price: 16500, mileage: 28000, engine: '1.8L I4', condition: 'Excellent', image: '🚙' },
+    { id: 9, make: 'Toyota', model: 'RAV4', year: 2019, name: '2019 Toyota RAV4', price: 22000, mileage: 55000, engine: '2.5L I4', condition: 'Very Good', image: '🚗' },
+    { id: 10, make: 'Toyota', model: 'Highlander', year: 2020, name: '2020 Toyota Highlander', price: 28000, mileage: 40000, engine: '3.5L V6', condition: 'Excellent', image: '🚙' },
+
+    // Honda
     { id: 2, make: 'Honda', model: 'Accord', year: 2019, name: '2019 Honda Accord', price: 17800, mileage: 52000, engine: '1.5L Turbo', condition: 'Excellent', image: '🚙' },
+    { id: 7, make: 'Honda', model: 'Civic', year: 2020, name: '2020 Honda Civic', price: 16200, mileage: 38000, engine: '2.0L I4', condition: 'Excellent', image: '🚗' },
+    { id: 11, make: 'Honda', model: 'CR-V', year: 2021, name: '2021 Honda CR-V', price: 23500, mileage: 31000, engine: '1.5L Turbo', condition: 'Excellent', image: '🚙' },
+    { id: 12, make: 'Honda', model: 'Pilot', year: 2018, name: '2018 Honda Pilot', price: 24000, mileage: 62000, engine: '3.5L V6', condition: 'Good', image: '🚗' },
+
+    // BMW
     { id: 3, make: 'BMW', model: '320i', year: 2021, name: '2021 BMW 320i', price: 24500, mileage: 35000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚗' },
+    { id: 8, make: 'BMW', model: '330i', year: 2019, name: '2019 BMW 330i', price: 28500, mileage: 41000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚙' },
+    { id: 13, make: 'BMW', model: 'X3', year: 2020, name: '2020 BMW X3', price: 32000, mileage: 39000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚗' },
+    { id: 14, make: 'BMW', model: 'X5', year: 2019, name: '2019 BMW X5', price: 45000, mileage: 48000, engine: '3.0L Turbo', condition: 'Very Good', image: '🚙' },
+
+    // Mercedes
     { id: 4, make: 'Mercedes', model: 'C300', year: 2020, name: '2020 Mercedes C300', price: 26800, mileage: 48000, engine: '2.0L Turbo', condition: 'Good', image: '🚙' },
+    { id: 15, make: 'Mercedes', model: 'E350', year: 2019, name: '2019 Mercedes E350', price: 38000, mileage: 51000, engine: '3.0L V6', condition: 'Excellent', image: '🚗' },
+    { id: 16, make: 'Mercedes', model: 'GLC', year: 2021, name: '2021 Mercedes GLC', price: 39000, mileage: 25000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚙' },
+    { id: 17, make: 'Mercedes', model: 'GLE', year: 2020, name: '2020 Mercedes GLE', price: 52000, mileage: 33000, engine: '3.0L Turbo', condition: 'Excellent', image: '🚗' },
+
+    // Audi
     { id: 5, make: 'Audi', model: 'A4', year: 2019, name: '2019 Audi A4', price: 22200, mileage: 42000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚗' },
+    { id: 18, make: 'Audi', model: 'A6', year: 2020, name: '2020 Audi A6', price: 35000, mileage: 38000, engine: '3.0L V6', condition: 'Excellent', image: '🚙' },
+    { id: 19, make: 'Audi', model: 'Q5', year: 2021, name: '2021 Audi Q5', price: 41000, mileage: 29000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚗' },
+    { id: 20, make: 'Audi', model: 'Q7', year: 2018, name: '2018 Audi Q7', price: 36000, mileage: 68000, engine: '3.0L Supercharged', condition: 'Good', image: '🚙' }
 ];
+
 const modelOptions = { 'Toyota': ['Camry', 'Corolla', 'RAV4'], 'Honda': ['Accord', 'Civic', 'CR-V'], 'BMW': ['320i', '330i', 'X3'], 'Mercedes': ['C300', 'E350', 'GLC'], 'Audi': ['A4', 'A6', 'Q5'] };
 const inspectionPoints = {
     mechanical: ['Engine Check', 'Transmission', 'Brake System'],
@@ -1594,7 +1788,7 @@ const inspectionPoints = {
 const DOMElements = {
     welcomePage: document.getElementById('welcome-page'),
     demoContainer: document.getElementById('demo-container'),
-    preferencesSection: document.getElementById('preferences-section'),
+    preferencesQuiz: document.getElementById('preferences-quiz'),
     carDiscoverySection: document.getElementById('car-discovery'),
     dashboardWrapper: document.getElementById('dashboard-wrapper'),
     loginPage: document.getElementById('login-page'),
@@ -1608,7 +1802,7 @@ function startDemo() {
     setTimeout(() => {
         DOMElements.welcomePage.style.display = 'none';
         DOMElements.demoContainer.style.display = 'block';
-        DOMElements.preferencesSection.classList.add('active');
+        DOMElements.preferencesQuiz.classList.add('active');
     }, 500);
 }
 
@@ -1621,8 +1815,9 @@ function resetDemo() {
 }
 
 function showLoginPage() {
-    hideAllSections();
     DOMElements.welcomePage.style.display = 'none';
+    DOMElements.demoContainer.style.display = 'block';
+    hideAllSections();
     DOMElements.loginPage.classList.add('active');
 }
 
@@ -1664,7 +1859,7 @@ function closeModal(modalId) {
 }
 
 function hideAllSections() {
-    document.querySelectorAll('.fullscreen-section, .preferences-section, .car-discovery, #dashboard-wrapper').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.fullscreen-section, .preferences-section, #preferences-quiz, .car-discovery, #dashboard-wrapper').forEach(el => el.classList.remove('active'));
 }
 
 function updateJourneyProgress(percentage) {
@@ -1676,8 +1871,7 @@ function showNotification(message, type) {
     const titleEl = document.getElementById('notification-title');
     const messageEl = document.getElementById('notification-message');
     
-    if (!notification || !titleEl || !messageEl) {
-        console.error("Notification elements not found in the DOM.");
+    if (!notification || !titleEl || !messageEl || !message) {
         return;
     }
 
@@ -1691,54 +1885,67 @@ function showNotification(message, type) {
     }, 5000);
 }
 
-// --- PREFERENCES & CAR DISCOVERY ---
+// --- PREFERENCES QUIZ ---
+const quizAnswers = {};
+let currentQuizStep = 1;
 
-function updateModels() {
-    const make = document.getElementById('make-filter').value;
-    const modelSelect = document.getElementById('model-filter');
-    modelSelect.innerHTML = '<option value="">Any Model</option>';
-    if (make && modelOptions[make]) {
-        modelOptions[make].forEach(model => {
-            const option = document.createElement('option');
-            option.value = model;
-            option.textContent = model;
-            modelSelect.appendChild(option);
-        });
+function goToQuizStep(step) {
+    const currentCard = document.querySelector(`.quiz-card[data-quiz-step="${currentQuizStep}"]`);
+    const nextCard = document.querySelector(`.quiz-card[data-quiz-step="${step}"]`);
+
+    if (currentCard) currentCard.classList.add('previous');
+    if (nextCard) {
+        nextCard.classList.remove('previous');
+        nextCard.classList.add('active');
     }
+    currentQuizStep = step;
 }
 
-function updateSliderDisplay(value, type) {
-    const displayEl = document.getElementById(`${type}-display`);
-    if (type === 'budget') {
-        currentBudget = parseInt(value);
-        displayEl.textContent = '$' + new Intl.NumberFormat().format(value);
+function handleQuizSelection(e) {
+    const card = e.target.closest('.quiz-card');
+    const key = card.dataset.key;
+    const isMultiSelect = card.dataset.multiselect === 'true';
+    
+    if (isMultiSelect) {
+        e.target.classList.toggle('selected');
+        if (!quizAnswers[key]) quizAnswers[key] = new Set();
+        if (e.target.classList.contains('selected')) {
+            quizAnswers[key].add(e.target.dataset.value);
+        } else {
+            quizAnswers[key].delete(e.target.dataset.value);
+        }
     } else {
-        currentMileage = parseInt(value);
-        displayEl.textContent = new Intl.NumberFormat().format(value) + ' km';
+        card.querySelectorAll('.option-btn, .color-dot').forEach(btn => btn.classList.remove('selected'));
+        e.target.classList.add('selected');
+        quizAnswers[key] = e.target.dataset.value;
     }
 }
 
-function showCars() {
-    DOMElements.preferencesSection.classList.remove('active');
+function showCarsFromQuiz() {
+    quizAnswers.budget = document.getElementById('quiz-budget-slider').value;
+    
+    filteredCars = cars.filter(car => {
+        const typeMatch = !quizAnswers.type || car.type === quizAnswers.type;
+        const makeMatch = !quizAnswers.make || quizAnswers.make.size === 0 || quizAnswers.make.has(car.make);
+        const modelMatch = !quizAnswers.model || car.model === quizAnswers.model;
+        const yearMatch = !quizAnswers.year || car.year >= parseInt(quizAnswers.year);
+        const budgetMatch = car.price <= parseInt(quizAnswers.budget);
+        return typeMatch && makeMatch && modelMatch && yearMatch && budgetMatch;
+    });
+
+    if (filteredCars.length < 4) {
+        // Broaden search if not enough results
+        filteredCars = cars.filter(car => car.price <= parseInt(quizAnswers.budget) + 10000);
+    }
+    
+    hideAllSections();
     DOMElements.carDiscoverySection.classList.add('active');
-    
-    const makeFilter = document.getElementById('make-filter').value;
-    const modelFilter = document.getElementById('model-filter').value;
-    const yearFilter = document.getElementById('year-filter').value;
-    
-    filteredCars = cars.filter(car => 
-        (!makeFilter || car.make === makeFilter) &&
-        (!modelFilter || car.model === modelFilter) &&
-        (!yearFilter || car.year === parseInt(yearFilter)) &&
-        (car.price <= currentBudget + 5000) &&
-        (car.mileage <= currentMileage + 20000)
-    );
-    
-    if (filteredCars.length === 0) filteredCars = cars.filter(car => car.price <= currentBudget + 5000);
-    
     currentCarIndex = 0;
     renderCurrentCar();
 }
+
+
+// --- CAR DISCOVERY ---
 
 function renderCurrentCar() {
     const carCard = document.getElementById('current-car-card');
@@ -1776,7 +1983,7 @@ function swipeCar(direction) {
 
 function backToPreferences() {
     hideAllSections();
-    DOMElements.preferencesSection.classList.add('active');
+    DOMElements.preferencesQuiz.classList.add('active');
 }
 
 // --- AGENT HANDOFF & DASHBOARD MANAGEMENT ---
@@ -2169,11 +2376,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('back-to-welcome-btn').addEventListener('click', resetDemo);
     document.getElementById('logout-btn').addEventListener('click', resetDemo);
     
-    // Preferences
-    document.getElementById('make-filter').addEventListener('change', updateModels);
-    document.getElementById('mileage-slider').addEventListener('input', (e) => updateSliderDisplay(e.target.value, 'mileage'));
-    document.getElementById('budget-slider').addEventListener('input', (e) => updateSliderDisplay(e.target.value, 'budget'));
-    document.getElementById('find-cars-btn').addEventListener('click', showCars);
+    // Preferences Quiz
+    document.querySelectorAll('.quiz-card .option-btn, .quiz-card .color-dot').forEach(btn => {
+        btn.addEventListener('click', handleQuizSelection);
+    });
+    document.getElementById('quiz-budget-slider').addEventListener('input', (e) => {
+        document.getElementById('quiz-budget-display').textContent = '$' + new Intl.NumberFormat().format(e.target.value);
+    });
+    document.getElementById('find-cars-from-quiz-btn').addEventListener('click', showCarsFromQuiz);
 
     // Car Discovery
     document.getElementById('pass-car-btn').addEventListener('click', () => swipeCar('left'));
