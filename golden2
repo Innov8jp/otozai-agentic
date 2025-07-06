@@ -1,1 +1,2221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otoz.ai - The Future of Cross-Border Vehicle Trading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Welcome Page Styles */
+        .welcome-page {
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #1e293b 50%, #0f172a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .welcome-page.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .company-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .logo-svg {
+            width: 80px;
+            height: 80px;
+        }
+
+        .logo-svg path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-logo 3s ease-in-out forwards;
+        }
+
+        @keyframes draw-logo {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #fff;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .agent-carousel {
+            width: 400px;
+            height: 400px;
+            margin: 2rem auto;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: revolve 20s infinite linear;
+        }
+
+        @keyframes revolve {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .agent-card {
+            position: absolute;
+            width: 180px;
+            height: 240px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            top: 50%;
+            left: 50%;
+            margin-top: -120px;
+            margin-left: -90px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .agent-card:hover {
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            transform: var(--transform-original) scale(1.05); /* Use original transform and scale up */
+        }
+
+
+        .agent-card:nth-child(1) { --transform-original: rotateY(0deg) translateZ(200px); transform: var(--transform-original); }
+        .agent-card:nth-child(2) { --transform-original: rotateY(90deg) translateZ(200px); transform: var(--transform-original); }
+        .agent-card:nth-child(3) { --transform-original: rotateY(180deg) translateZ(200px); transform: var(--transform-original); }
+        .agent-card:nth-child(4) { --transform-original: rotateY(270deg) translateZ(200px); transform: var(--transform-original); }
+
+        .agent-card-content {
+            transition: opacity 0.3s;
+        }
+        
+        .agent-card-tracker {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .agent-card:hover .agent-card-content {
+            opacity: 0.1;
+        }
+        
+        .agent-card:hover .agent-card-tracker {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .agent-card-tracker .form-input {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.4);
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 8px;
+            width: 100%;
+        }
+        .agent-card-tracker .quick-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+
+        .agent-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .sparky-avatar { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+        .inspector-avatar { background: linear-gradient(135deg, #ec4899, #be185d); }
+        .penny-avatar { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .captain-avatar { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        .game-start-controls {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #06b6d4, #0891b2);
+            border: none;
+            border-radius: 50px;
+            padding: 20px 50px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+        }
+
+        .existing-btn {
+            background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .start-btn:hover, .existing-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            color: #1e293b;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .agent-select-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .agent-select-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .modal-close {
+            background: #f1f5f9;
+            color: #334155;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Fullscreen Sections */
+        .fullscreen-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1500;
+        }
+        .fullscreen-section.active {
+            display: flex;
+        }
+
+        /* Login Page */
+        #login-page {
+             background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #1e293b 50%, #0f172a 100%);
+        }
+        .login-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .auth-btn img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        .google-btn { background: white; color: #333; }
+        .apple-btn { background: black; color: white; }
+
+        /* User Dashboard */
+        #user-dashboard-page {
+            background: #f1f5f9;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .dashboard-header-main {
+            width: 100%;
+            padding: 20px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            flex: 1;
+        }
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .order-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .order-item:last-child { border-bottom: none; }
+
+
+        /* Demo Container */
+        .demo-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            display: none;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .demo-container.active {
+            display: flex; /* Changed for new layout */
+        }
+
+        /* Preferences Section */
+        .preferences-section {
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #1e293b 50%, #0f172a 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .preferences-section.active {
+            display: flex;
+        }
+
+        .preferences-content {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
+
+        .preference-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .car-filters {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-select {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .filter-select option {
+            background: #667eea;
+            color: white;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+
+        .find-cars-btn {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.3s;
+        }
+
+        .find-cars-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Car Discovery Section */
+        .car-discovery {
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #1e293b 50%, #0f172a 100%);
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .car-discovery.active {
+            display: flex;
+        }
+
+        /* Car Swipe Container */
+        .car-swipe-container {
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .swipe-card.swiping-left {
+            transform: translateX(-150%) rotate(-30deg);
+            opacity: 0;
+        }
+
+        .swipe-card.swiping-right {
+            transform: translateX(150%) rotate(30deg);
+            opacity: 0;
+        }
+
+        .swipe-header {
+            height: 300px;
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+        }
+
+        .swipe-info {
+            padding: 30px;
+            text-align: center;
+            color: #1e293b;
+        }
+
+        .swipe-actions {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .swipe-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .pass-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .like-btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .swipe-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- NEW AGENT HANDOFF LAYOUT --- */
+        #dashboard-wrapper {
+            display: none; /* Hidden by default */
+            width: 100%;
+            height: 100vh;
+        }
+        #dashboard-wrapper.active {
+            display: flex;
+        }
+
+        #agent-nav-sidebar {
+            width: 280px;
+            background: #f8fafc;
+            padding: 20px;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s;
+        }
+
+        .agent-nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .agent-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+            color: #64748b;
+            opacity: 0.5;
+        }
+        .agent-nav-item .agent-nav-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        .agent-nav-item .agent-nav-info {
+            flex-grow: 1;
+        }
+        .agent-nav-item .agent-nav-info h4 {
+            margin: 0;
+            font-size: 1rem;
+            color: #334155;
+        }
+        .agent-nav-item .agent-nav-info p {
+            margin: 0;
+            font-size: 0.8rem;
+        }
+        .agent-nav-item .status-icon {
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* State: Active Agent */
+        .agent-nav-item.active {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 1;
+            font-weight: 600;
+        }
+
+        /* State: Completed Agent */
+        .agent-nav-item.completed {
+            opacity: 1;
+        }
+        .agent-nav-item.completed .status-icon {
+            opacity: 1;
+            color: #22c55e;
+        }
+
+        #dashboard-panels {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        /* --- END NEW LAYOUT --- */
+
+        .agent-dashboard {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            color: #1e293b;
+        }
+
+        .agent-dashboard.active {
+            display: flex;
+        }
+        
+        .dashboard-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f1f5f9;
+        }
+        
+        #sparky-dashboard .dashboard-content {
+            overflow: hidden; /* Prevent this panel from scrolling */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .service-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .service-description {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Chat Section */
+        .chat-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Allow chat to grow */
+            min-height: 0; /* For flexbox to work properly */
+        }
+
+        .chat-messages {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-content {
+            background: #f1f5f9;
+            padding: 12px 16px;
+            border-radius: 16px;
+            max-width: 70%;
+            color: #1e293b;
+        }
+
+        .message.user .message-content {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 25px;
+            outline: none;
+        }
+
+        .send-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #06b6d4;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Status Cards */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .status-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .status-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .quick-btn {
+            padding: 10px 20px;
+            border: 1px solid #06b6d4;
+            background: white;
+            color: #06b6d4;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quick-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2;
+        }
+        
+        .quick-btn:disabled {
+            background: #e2e8f0;
+            color: #94a3b8;
+            border-color: #e2e8f0;
+            cursor: not-allowed;
+        }
+
+
+        .quick-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .quick-btn.primary {
+            background: linear-gradient(45deg, #06b6d4, #0891b2);
+            border-color: #06b6d4;
+            color: white;
+        }
+        .quick-btn.primary svg {
+            stroke: white;
+        }
+
+        .quick-btn.success {
+            background: linear-gradient(45deg, #16a34a, #22c55e);
+            border-color: #16a34a;
+            color: white;
+        }
+        .quick-btn.success svg {
+            stroke: white;
+        }
+
+        .quick-btn.danger {
+            background: linear-gradient(45deg, #dc2626, #ef4444);
+            border-color: #dc2626;
+            color: white;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            max-width: 400px;
+            z-index: 3000;
+        }
+
+        .notification.active {
+            display: block;
+        }
+
+        .notification.success {
+            border-left: 5px solid #22c55e;
+        }
+
+        .notification.info {
+            border-left: 5px solid #06b6d4;
+        }
+        .notification.danger {
+             border-left: 5px solid #ef4444;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #0891b2);
+            width: 0%; /* Start at 0 */
+            transition: width 0.5s ease-in-out;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Inspection Checklist */
+        .inspection-list {
+            list-style: none;
+            padding: 0;
+        }
+        .inspection-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        
+        .status-indicator {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            transition: background-color 0.5s;
+            position: relative;
+        }
+        .inspection-item.passed .status-indicator {
+            background-color: #22c55e;
+        }
+        .checkmark__svg {
+            width: 14px;
+            height: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .checkmark__path {
+            stroke-dasharray: 20;
+            stroke-dashoffset: 20;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+        }
+        .inspection-item.passed .checkmark__path {
+            animation: stroke 0.3s 0.2s ease-out forwards;
+        }
+
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        /* Shipping Tracker */
+        .shipping-tracker {
+            list-style: none;
+            padding: 0;
+            position: relative;
+        }
+        .shipping-tracker::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #e2e8f0;
+        }
+        .shipping-step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+        .shipping-step .step-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #f1f5f9;
+            z-index: 1;
+        }
+        .shipping-step.completed .step-icon {
+            background-color: #8b5cf6;
+            color: white;
+        }
+        .shipping-step h4 { margin-bottom: 5px; }
+        .shipping-step p { color: #64748b; font-size: 0.9rem; }
+
+        /* Invoice Styles */
+        .invoice-box {
+            background: white;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            color: #555;
+            border-radius: 15px;
+        }
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        .invoice-box table td {
+            padding: 8px;
+            vertical-align: top;
+        }
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #06b6d4;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Modals -->
+<div class="modal" id="agent-service-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="agent-service-title">Agent Service</h2>
+            <p id="agent-service-description">Access specialized services</p>
+        </div>
+        <div id="agent-service-content"></div>
+        <button class="modal-close" id="agent-service-modal-close">Close</button>
+    </div>
+</div>
+
+<div class="modal" id="existing-customer-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Existing Customer Portal</h2>
+            <p>Access your AI agents for order updates and support</p>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Order Number (or last 4-5 digits)</label>
+            <input type="text" class="form-input" id="order-id-input" placeholder="e.g., OTZ-12345 or 2345">
+        </div>
+        <button class="quick-btn primary" id="track-order-btn" style="width: 100%;">Track My Order</button>
+        <button class="modal-close" id="existing-customer-modal-close" style="width: 100%; margin-top: 10px;">Close</button>
+    </div>
+</div>
+
+<div class="modal" id="invoice-modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <div id="invoice-content">
+            <!-- Proforma Invoice will be rendered here by JavaScript -->
+        </div>
+        <button class="modal-close" id="invoice-modal-close">Close</button>
+    </div>
+</div>
+
+<!-- Notification -->
+<div class="notification" id="notification">
+    <h4 id="notification-title"></h4>
+    <p id="notification-message"></p>
+</div>
+
+<!-- Welcome Page -->
+<div class="welcome-page" id="welcome-page">
+    <div class="floating-icon" style="left: 10%; animation-delay: 0s;">🚗</div>
+    <div class="floating-icon" style="left: 30%; animation-delay: 3s;">🤖</div>
+    <div class="floating-icon" style="left: 50%; animation-delay: 6s;">🌐</div>
+    <div class="floating-icon" style="left: 70%; animation-delay: 9s;">🚗</div>
+    <div class="floating-icon" style="left: 90%; animation-delay: 12s;">💎</div>
+    <div class="hero-content">
+        <h1 class="company-logo">
+             <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 50, 5
+                         A 45,45 0 1 1 49.9,5.001" 
+                      stroke="url(#grad1)" stroke-width="3" fill="none"/>
+                <path d="M 25 60 
+                         C 30 50, 40 45, 50 50 
+                         S 70 55, 75 60 
+                         L 80 65 
+                         C 85 60, 80 50, 70 48
+                         L 30 48
+                         C 20 50, 15 60, 20 65
+                         L 25 60"
+                      stroke="url(#grad1)" stroke-width="2" fill="none"/>
+                <circle cx="35" cy="70" r="5" stroke="url(#grad1)" stroke-width="2" fill="none"/>
+                <circle cx="65" cy="70" r="5" stroke="url(#grad1)" stroke-width="2" fill="none"/>
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            Otoz.ai
+        </h1>
+        <p class="tagline">First AI-Driven Cross-Border Used Car Marketplace</p>
+        <p class="hero-description">Buy Used Cars Globally—Speedy Buying, Shipping Right Away! Powered by AI for Smart, Secure, rapid Transactions—Revolutionizing Car Trade History with our Multi-Agent AI Concierge System.</p>
+        <div class="stats-container">
+            <div class="stat-item"><span class="stat-number">4</span><span class="stat-label">AI Agents</span></div>
+            <div class="stat-item"><span class="stat-number">10%</span><span class="stat-label">Smart Discounts</span></div>
+            <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Autonomous</span></div>
+            <div class="stat-item"><span class="stat-number">Global</span><span class="stat-label">Reach</span></div>
+        </div>
+        <div class="agent-carousel" id="agent-carousel">
+            <div class="agent-card" data-agent="sparky">
+                <div class="agent-card-content">
+                    <div class="agent-avatar sparky-avatar">🤖</div><h3>Sparky</h3><p>Discovery & Negotiation</p>
+                </div>
+                <div class="agent-card-tracker">
+                    <input type="text" class="form-input agent-tracker-input" placeholder="Order ID">
+                    <button class="quick-btn primary agent-tracker-btn">Track</button>
+                </div>
+            </div>
+            <div class="agent-card" data-agent="inspector">
+                 <div class="agent-card-content">
+                    <div class="agent-avatar inspector-avatar">🔍</div><h3>Inspector</h3><p>Quality Assurance</p>
+                </div>
+                <div class="agent-card-tracker">
+                    <input type="text" class="form-input agent-tracker-input" placeholder="Order ID">
+                    <button class="quick-btn primary agent-tracker-btn">Track</button>
+                </div>
+            </div>
+            <div class="agent-card" data-agent="penny">
+                 <div class="agent-card-content">
+                    <div class="agent-avatar penny-avatar">💰</div><h3>Penny</h3><p>Payment & Billing</p>
+                </div>
+                <div class="agent-card-tracker">
+                    <input type="text" class="form-input agent-tracker-input" placeholder="Order ID">
+                    <button class="quick-btn primary agent-tracker-btn">Track</button>
+                </div>
+            </div>
+            <div class="agent-card" data-agent="captain">
+                 <div class="agent-card-content">
+                    <div class="agent-avatar captain-avatar">🚢</div><h3>Captain</h3><p>Global Shipping</p>
+                </div>
+                <div class="agent-card-tracker">
+                    <input type="text" class="form-input agent-tracker-input" placeholder="Order ID">
+                    <button class="quick-btn primary agent-tracker-btn">Track</button>
+                </div>
+            </div>
+        </div>
+        <div class="game-start-controls">
+            <button class="start-btn" id="start-journey-btn">🚀 START YOUR JOURNEY</button>
+            <button class="existing-btn" id="existing-customer-btn">👤 EXISTING CUSTOMER</button>
+        </div>
+    </div>
+</div>
+
+<!-- Demo Container -->
+<div class="demo-container" id="demo-container">
+    <!-- Login Page -->
+    <div class="fullscreen-section" id="login-page">
+        <div class="login-box">
+            <h2 style="margin-bottom: 10px;">Welcome Back!</h2>
+            <p style="margin-bottom: 30px; opacity: 0.7;">Login to access your dashboard.</p>
+            <button class="auth-btn google-btn" id="google-login-btn">
+                <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_24dp.png" alt="Google">
+                Continue with Google
+            </button>
+            <button class="auth-btn apple-btn" id="apple-login-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12.014,1.25c-2.42,0-4.75,1.225-6.02,3.1-2.25,3.325-1.435,8.125,1.01,10.9-1.525,1.15-3.235,2.9-3.235,5.225,0,2.1,1.95,3.275,4.325,3.275,2.2,0,3.35-1.125,5.925-1.125s3.7,1.125,5.9,1.125c2.375,0,4.325-1.175,4.325-3.275,0-2.325-1.71-4.075-3.235-5.225,1.225-1.325,1.815-2.9,1.815-4.5,0-3.325-2.49-5.575-5.815-5.575Zm-1.29,1.525c1.475,0,3.25,1.025,4.35,2.525-1.35,0.8-3.3,0.925-4.575,0.1-0.65-0.425-1.225-1.1-1.225-1.925,0-0.35,0.15-0.7,0.45-0.7Z"/></svg>
+                Continue with Apple
+            </button>
+            <button class="quick-btn danger" id="back-to-welcome-btn" style="width: 100%; margin-top: 15px;">Back</button>
+        </div>
+    </div>
+
+    <!-- User Dashboard Page -->
+    <div class="fullscreen-section" id="user-dashboard-page">
+         <div class="dashboard-header-main">
+            <h2 style="color: #1e293b;">My Dashboard</h2>
+            <button class="quick-btn danger" id="logout-btn">Logout</button>
+        </div>
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3 style="margin-bottom: 20px;">My Orders</h3>
+                <div class="order-list" id="user-orders-list">
+                    <!-- Orders will be populated here -->
+                </div>
+            </div>
+             <div class="dashboard-card">
+                <h3 style="margin-bottom: 20px;">My Profile</h3>
+                <p><strong>Name:</strong> Valued Customer</p>
+                <p><strong>Email:</strong> customer@example.com</p>
+                 <h3 style="margin-top: 30px; margin-bottom: 20px;">Saved Cars</h3>
+                 <p style="color: #64748b;">Your liked cars will appear here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preferences Section -->
+    <div class="preferences-section" id="preferences-section">
+        <div class="preferences-content">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem;">🤖 Hi! I'm Sparky, Your AI Car Expert</h2>
+            <p style="margin-bottom: 2rem;">Let me find the perfect car for you! Tell me your preferences...</p>
+            <div class="preference-card">
+                <h3>🚗 Select Your Preferred Vehicle</h3>
+                <div class="car-filters">
+                    <div><label style="display: block; margin-bottom: 5px;">Make</label><select class="filter-select" id="make-filter"><option value="">Any Make</option><option value="Toyota">Toyota</option><option value="Honda">Honda</option><option value="BMW">BMW</option><option value="Mercedes">Mercedes</option><option value="Audi">Audi</option></select></div>
+                    <div><label style="display: block; margin-bottom: 5px;">Model</label><select class="filter-select" id="model-filter"><option value="">Any Model</option></select></div>
+                    <div><label style="display: block; margin-bottom: 5px;">Year</label><select class="filter-select" id="year-filter"><option value="">Any Year</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option></select></div>
+                </div>
+            </div>
+            <div class="preference-card">
+                <h3>📏 Preferred mileage range?</h3>
+                <input type="range" class="slider" id="mileage-slider" min="10000" max="150000" value="50000">
+                <p id="mileage-display">50,000 km</p>
+            </div>
+            <div class="preference-card">
+                <h3>💰 What's your budget?</h3>
+                <input type="range" class="slider" id="budget-slider" min="5000" max="50000" value="25000">
+                <p id="budget-display">$25,000</p>
+            </div>
+            <button class="find-cars-btn" id="find-cars-btn">⚡ Find My Perfect Cars</button>
+        </div>
+    </div>
+
+    <!-- Car Discovery Section -->
+    <div class="car-discovery" id="car-discovery">
+        <h2 style="text-align: center; margin-bottom: 1rem; color: white;">🎯 Swipe to Find Your Perfect Match!</h2>
+        <p style="text-align: center; margin-bottom: 2rem; color: white; opacity: 0.8;">← Pass (Swipe Left) | Like (Swipe Right) →</p>
+        <div class="car-swipe-container">
+            <div class="swipe-card" id="current-car-card"></div>
+            <div class="swipe-actions">
+                <button class="swipe-btn pass-btn" id="pass-car-btn">❌</button>
+                <button class="swipe-btn like-btn" id="like-car-btn">💚</button>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <button class="quick-btn" id="back-to-prefs-btn" style="background: white; color: #06b6d4; padding: 12px 24px;">← Change Preferences</button>
+        </div>
+    </div>
+    
+    <!-- Agent Dashboards Container -->
+    <div id="dashboard-wrapper">
+        <div id="agent-nav-sidebar">
+            <h2 style="color: #1e293b; margin-bottom: 30px;">Your Journey</h2>
+            <ul class="agent-nav-list">
+                <li class="agent-nav-item" data-agent="sparky">
+                    <div class="agent-nav-icon sparky-avatar">🤖</div>
+                    <div class="agent-nav-info">
+                        <h4>Sparky</h4>
+                        <p>Negotiation</p>
+                    </div>
+                    <div class="status-icon">✅</div>
+                </li>
+                <li class="agent-nav-item" data-agent="inspector">
+                    <div class="agent-nav-icon inspector-avatar">🔍</div>
+                    <div class="agent-nav-info">
+                        <h4>Inspector</h4>
+                        <p>Quality Assurance</p>
+                    </div>
+                    <div class="status-icon">✅</div>
+                </li>
+                <li class="agent-nav-item" data-agent="penny">
+                    <div class="agent-nav-icon penny-avatar">💰</div>
+                    <div class="agent-nav-info">
+                        <h4>Penny</h4>
+                        <p>Payment</p>
+                    </div>
+                    <div class="status-icon">✅</div>
+                </li>
+                <li class="agent-nav-item" data-agent="captain">
+                    <div class="agent-nav-icon captain-avatar">🚢</div>
+                    <div class="agent-nav-info">
+                        <h4>Captain</h4>
+                        <p>Shipping</p>
+                    </div>
+                    <div class="status-icon">✅</div>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                 <p style="color: #64748b; font-size: 0.9rem;">Overall Progress</p>
+                 <div class="progress-bar"><div class="progress-fill" id="journey-progress"></div></div>
+                 <button class="quick-btn danger exit-dashboard-btn" style="width: 100%; margin-top: 10px;">Exit Demo</button>
+            </div>
+        </div>
+
+        <div id="dashboard-panels">
+            <!-- Sparky's Dashboard -->
+            <div class="agent-dashboard" id="sparky-dashboard">
+                <div class="dashboard-header">
+                    <div><h3 id="sparky-car-name">Select a Car</h3><p id="sparky-car-specs">Start negotiating</p></div>
+                    <div style="text-align: right;"><div id="sparky-current-price" style="font-size: 1.8rem; color: #f59e0b; font-weight: 900;">$0</div><div style="color: #64748b; font-size: 0.9rem;">Current Offer</div></div>
+                </div>
+                <div class="dashboard-content" style="display: flex; flex-direction: column;">
+                    <div class="status-grid">
+                        <div class="status-card"><div class="status-label">Original Price</div><div class="status-value" id="sparky-original-price">$0</div></div>
+                        <div class="status-card"><div class="status-label">Your Savings</div><div class="status-value" style="color: #22c55e;" id="sparky-savings">$0</div></div>
+                        <div class="status-card"><div class="status-label">Negotiation Status</div><div class="status-value" style="font-size: 1.2rem;">In Progress</div></div>
+                    </div>
+                    <div class="chat-section">
+                        <div class="chat-messages" id="sparky-chat-messages"></div>
+                        <div class="chat-input-container">
+                            <input type="text" class="chat-input" id="sparky-chat-input" placeholder="Negotiate with Sparky..."><button class="send-btn" id="sparky-send-btn">➤</button>
+                        </div>
+                         <div class="quick-actions" id="sparky-quick-actions">
+                            <button class="quick-btn" data-message="Can you do better on the price?"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg>Lower Price</button>
+                            <button class="quick-btn" data-message="What is your absolute best offer?"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>Best Offer</button>
+                            <button class="quick-btn" data-message="Tell me more about this car"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>Car Details</button>
+                            <button class="quick-btn primary" id="accept-deal-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>Accept Deal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Inspector's Dashboard -->
+            <div class="agent-dashboard" id="inspector-dashboard">
+                <div class="dashboard-header">
+                    <div><h3 id="inspector-car-name">Vehicle Inspection</h3><p id="inspector-car-specs">150-Point Quality Check</p></div>
+                    <div style="text-align: right;"><div id="inspector-score" style="font-size: 1.5rem; color: #ec4899; font-weight: bold;">--%</div><div style="color: #64748b; font-size: 0.9rem;">Inspection Score</div></div>
+                </div>
+                <div class="dashboard-content">
+                    <button class="quick-btn primary" id="start-inspection-btn">🔍 Start 150-Point Inspection</button>
+                    <div class="service-grid" style="margin-top: 20px;">
+                        <div class="service-card"><div class="service-icon">🔧</div><div class="service-title">Engine & Mechanical</div><ul class="inspection-list" id="inspection-mechanical"></ul></div>
+                        <div class="service-card"><div class="service-icon">🚗</div><div class="service-title">Body & Paint</div><ul class="inspection-list" id="inspection-body"></ul></div>
+                        <div class="service-card"><div class="service-icon">💺</div><div class="service-title">Interior</div><ul class="inspection-list" id="inspection-interior"></ul></div>
+                        <div class="service-card"><div class="service-icon">🔋</div><div class="service-title">Electronics</div><ul class="inspection-list" id="inspection-electronics"></ul></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Penny's Dashboard -->
+            <div class="agent-dashboard" id="penny-dashboard">
+                <div class="dashboard-header">
+                    <div><h3 id="penny-car-name">Payment Center</h3><p id="penny-car-specs">Secure Global Transactions</p></div>
+                </div>
+                <div class="dashboard-content">
+                    <div class="service-grid" style="grid-template-columns: 1fr 1fr;">
+                        <div class="service-card">
+                            <div class="service-title">1. Consignee Details</div>
+                            <p class="service-description">Enter your information for the Bill of Lading.</p>
+                            <div id="consignee-form" style="margin-top: 15px;">
+                                <div class="form-group"><input type="text" id="customer-name" class="form-input" placeholder="Full Name"></div>
+                                <div class="form-group"><input type="text" id="customer-address" class="form-input" placeholder="Full Address"></div>
+                                <div class="form-group" style="margin-bottom: 0;"><input type="text" id="customer-phone" class="form-input" placeholder="Phone Number"></div>
+                            </div>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-title">2. Shipping & Invoice</div>
+                             <p class="service-description">Select your shipping terms to calculate the final cost.</p>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label class="form-label">Shipping Term</label>
+                                <select class="filter-select" id="shipping-term-select" style="background: #e0f7fa; color: #333;">
+                                    <option value="FOB">FOB (Free On Board)</option>
+                                    <option value="CNF">C&F (Cost and Freight)</option>
+                                    <option value="CIF">CIF (Cost, Insurance, and Freight)</option>
+                                </select>
+                            </div>
+                            <button class="quick-btn primary" id="generate-invoice-btn" disabled>Generate Proforma Invoice</button>
+                        </div>
+                    </div>
+                     <button class="quick-btn success hidden" id="penny-proceed-btn">🚢 Handoff to Captain</button>
+                </div>
+            </div>
+
+            <!-- Captain's Dashboard -->
+            <div class="agent-dashboard" id="captain-dashboard">
+                <div class="dashboard-header">
+                    <div><h3 id="captain-car-name">Shipping Command Center</h3><p id="captain-car-specs">Real-Time Global Logistics</p></div>
+                    <div style="text-align: right;"><div id="captain-status" style="font-size: 1.5rem; color: #8b5cf6; font-weight: bold;">Pending</div><div style="color: #64748b; font-size: 0.9rem;">Current Status</div></div>
+                </div>
+                <div class="dashboard-content">
+                    <h3>Live Shipment Tracker</h3>
+                    <div class="service-card" style="margin-top: 20px;">
+                        <ul class="shipping-tracker" id="shipping-tracker">
+                            <li class="shipping-step" data-step="1"><div class="step-icon">📦</div><h4>Order Confirmed</h4><p>Your order has been confirmed and is being prepared for shipping.</p></li>
+                            <li class="shipping-step" data-step="2"><div class="step-icon">⚓</div><h4>At Origin Port</h4><p>Vehicle has arrived at the port and is awaiting customs clearance.</p></li>
+                            <li class="shipping-step" data-step="3"><div class="step-icon">🚢</div><h4>In Transit</h4><p>Your vehicle is now on its way across the ocean.</p></li>
+                            <li class="shipping-step" data-step="4"><div class="step-icon">🌏</div><h4>Arrived at Destination</h4><p>Vehicle has arrived at the destination port.</p></li>
+                            <li class="shipping-step" data-step="5"><div class="step-icon">🚚</div><h4>Final Delivery</h4><p>Your vehicle is out for final delivery to your address.</p></li>
+                        </ul>
+                    </div>
+                     <button class="quick-btn success" id="captain-finish-btn">🎉 Finish Journey</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// --- STATE MANAGEMENT ---
+let currentBudget = 25000;
+let currentMileage = 50000;
+let selectedCar = null;
+let currentPrice = 0;
+let originalPrice = 0;
+let discountGiven = false;
+let dealAccepted = false;
+let currentCarIndex = 0;
+let likedCars = [];
+let filteredCars = [];
+const agentOrder = ['sparky', 'inspector', 'penny', 'captain'];
+const orderLedger = {
+    'OTZ-54321': {
+        id: 'OTZ-54321',
+        car: { id: 3, make: 'BMW', model: '320i', year: 2021, name: '2021 BMW 320i', price: 24500, mileage: 35000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚗' },
+        price: 24000,
+        customer: { name: 'John Doe', address: '123 Main St, Anytown, USA', phone: '555-123-4567' },
+        stage: 'inspector'
+    }
+};
+
+// --- MOCK DATA ---
+const cars = [
+    { id: 1, make: 'Toyota', model: 'Camry', year: 2020, name: '2020 Toyota Camry', price: 18500, mileage: 45000, engine: '2.5L I4', condition: 'Excellent', image: '🚗' },
+    { id: 2, make: 'Honda', model: 'Accord', year: 2019, name: '2019 Honda Accord', price: 17800, mileage: 52000, engine: '1.5L Turbo', condition: 'Excellent', image: '🚙' },
+    { id: 3, make: 'BMW', model: '320i', year: 2021, name: '2021 BMW 320i', price: 24500, mileage: 35000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚗' },
+    { id: 4, make: 'Mercedes', model: 'C300', year: 2020, name: '2020 Mercedes C300', price: 26800, mileage: 48000, engine: '2.0L Turbo', condition: 'Good', image: '🚙' },
+    { id: 5, make: 'Audi', model: 'A4', year: 2019, name: '2019 Audi A4', price: 22200, mileage: 42000, engine: '2.0L Turbo', condition: 'Excellent', image: '🚗' },
+];
+const modelOptions = { 'Toyota': ['Camry', 'Corolla', 'RAV4'], 'Honda': ['Accord', 'Civic', 'CR-V'], 'BMW': ['320i', '330i', 'X3'], 'Mercedes': ['C300', 'E350', 'GLC'], 'Audi': ['A4', 'A6', 'Q5'] };
+const inspectionPoints = {
+    mechanical: ['Engine Check', 'Transmission', 'Brake System'],
+    body: ['Frame Inspection', 'Paint Quality', 'Rust Check'],
+    interior: ['Upholstery', 'Dashboard', 'Climate Control'],
+    electronics: ['Infotainment', 'Sensors', 'Headlights']
+};
+
+// --- DOM ELEMENTS ---
+const DOMElements = {
+    welcomePage: document.getElementById('welcome-page'),
+    demoContainer: document.getElementById('demo-container'),
+    preferencesSection: document.getElementById('preferences-section'),
+    carDiscoverySection: document.getElementById('car-discovery'),
+    dashboardWrapper: document.getElementById('dashboard-wrapper'),
+    loginPage: document.getElementById('login-page'),
+    userDashboardPage: document.getElementById('user-dashboard-page'),
+};
+
+// --- UI & FLOW FUNCTIONS ---
+
+function startDemo() {
+    DOMElements.welcomePage.classList.add('fade-out');
+    setTimeout(() => {
+        DOMElements.welcomePage.style.display = 'none';
+        DOMElements.demoContainer.style.display = 'block';
+        DOMElements.preferencesSection.classList.add('active');
+    }, 500);
+}
+
+function resetDemo() {
+    hideAllSections();
+    DOMElements.demoContainer.style.display = 'none';
+    DOMElements.welcomePage.style.display = 'flex';
+    DOMElements.welcomePage.classList.remove('fade-out');
+    updateJourneyProgress(0);
+}
+
+function showLoginPage() {
+    hideAllSections();
+    DOMElements.welcomePage.style.display = 'none';
+    DOMElements.loginPage.classList.add('active');
+}
+
+function showUserDashboard() {
+    hideAllSections();
+    populateUserOrders();
+    DOMElements.userDashboardPage.classList.add('active');
+}
+
+function populateUserOrders() {
+    const orderList = document.getElementById('user-orders-list');
+    orderList.innerHTML = '';
+    if (Object.keys(orderLedger).length === 0) {
+        orderList.innerHTML = '<p style="color: #64748b; text-align: center;">You have no active orders.</p>';
+        return;
+    }
+    for (const orderId in orderLedger) {
+        const order = orderLedger[orderId];
+        const orderItem = document.createElement('div');
+        orderItem.className = 'order-item';
+        orderItem.innerHTML = `
+            <div>
+                <p style="font-weight: 600; color: #1e293b;">${order.car.name}</p>
+                <p style="font-size: 0.9rem; color: #64748b;">Order ID: ${order.id}</p>
+            </div>
+            <button class="quick-btn primary user-track-btn" data-order-id="${order.id}">Track</button>
+        `;
+        orderList.appendChild(orderItem);
+    }
+}
+
+
+function showExistingCustomer() {
+    document.getElementById('existing-customer-modal').classList.add('active');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+}
+
+function hideAllSections() {
+    document.querySelectorAll('.fullscreen-section, .preferences-section, .car-discovery, #dashboard-wrapper').forEach(el => el.classList.remove('active'));
+}
+
+function updateJourneyProgress(percentage) {
+    document.getElementById('journey-progress').style.width = `${percentage}%`;
+}
+
+function showNotification(message, type) {
+    const notification = document.getElementById('notification');
+    const titleEl = document.getElementById('notification-title');
+    const messageEl = document.getElementById('notification-message');
+    
+    if (!notification || !titleEl || !messageEl) {
+        console.error("Notification elements not found in the DOM.");
+        return;
+    }
+
+    titleEl.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+    messageEl.textContent = message;
+    
+    notification.className = 'notification active ' + type;
+    
+    setTimeout(() => {
+        notification.classList.remove('active');
+    }, 5000);
+}
+
+// --- PREFERENCES & CAR DISCOVERY ---
+
+function updateModels() {
+    const make = document.getElementById('make-filter').value;
+    const modelSelect = document.getElementById('model-filter');
+    modelSelect.innerHTML = '<option value="">Any Model</option>';
+    if (make && modelOptions[make]) {
+        modelOptions[make].forEach(model => {
+            const option = document.createElement('option');
+            option.value = model;
+            option.textContent = model;
+            modelSelect.appendChild(option);
+        });
+    }
+}
+
+function updateSliderDisplay(value, type) {
+    const displayEl = document.getElementById(`${type}-display`);
+    if (type === 'budget') {
+        currentBudget = parseInt(value);
+        displayEl.textContent = '$' + new Intl.NumberFormat().format(value);
+    } else {
+        currentMileage = parseInt(value);
+        displayEl.textContent = new Intl.NumberFormat().format(value) + ' km';
+    }
+}
+
+function showCars() {
+    DOMElements.preferencesSection.classList.remove('active');
+    DOMElements.carDiscoverySection.classList.add('active');
+    
+    const makeFilter = document.getElementById('make-filter').value;
+    const modelFilter = document.getElementById('model-filter').value;
+    const yearFilter = document.getElementById('year-filter').value;
+    
+    filteredCars = cars.filter(car => 
+        (!makeFilter || car.make === makeFilter) &&
+        (!modelFilter || car.model === modelFilter) &&
+        (!yearFilter || car.year === parseInt(yearFilter)) &&
+        (car.price <= currentBudget + 5000) &&
+        (car.mileage <= currentMileage + 20000)
+    );
+    
+    if (filteredCars.length === 0) filteredCars = cars.filter(car => car.price <= currentBudget + 5000);
+    
+    currentCarIndex = 0;
+    renderCurrentCar();
+}
+
+function renderCurrentCar() {
+    const carCard = document.getElementById('current-car-card');
+    if (currentCarIndex >= filteredCars.length) {
+        carCard.innerHTML = `<div class="swipe-info"><h3>No more cars!</h3><p>You've seen all available cars. Go back to change your preferences.</p></div>`;
+        return;
+    }
+    const car = filteredCars[currentCarIndex];
+    carCard.innerHTML = `
+        <div class="swipe-header">${car.image}</div>
+        <div class="swipe-info">
+            <h2>${car.name}</h2>
+            <p style="color: #64748b; margin: 10px 0;">${car.engine} • ${new Intl.NumberFormat().format(car.mileage)} km • ${car.condition}</p>
+            <div style="font-size: 1.5rem; font-weight: bold;">$${new Intl.NumberFormat().format(car.price)}</div>
+        </div>`;
+    carCard.classList.remove('swiping-left', 'swiping-right');
+}
+
+function swipeCar(direction) {
+    if (currentCarIndex >= filteredCars.length) return;
+    const card = document.getElementById('current-car-card');
+    card.classList.add(direction === 'left' ? 'swiping-left' : 'swiping-right');
+    
+    setTimeout(() => {
+        if (direction === 'right') {
+            const car = filteredCars[currentCarIndex];
+            likedCars.push(car);
+            selectCarForNegotiation(car);
+        } else {
+            currentCarIndex++;
+            renderCurrentCar();
+        }
+    }, 300);
+}
+
+function backToPreferences() {
+    hideAllSections();
+    DOMElements.preferencesSection.classList.add('active');
+}
+
+// --- AGENT HANDOFF & DASHBOARD MANAGEMENT ---
+
+function setActiveAgent(activeAgentName, orderData = null) {
+    
+    if (orderData) {
+        selectedCar = orderData.car;
+        currentPrice = orderData.price;
+        // Set other state from orderData as needed
+    }
+
+    hideAllSections();
+    DOMElements.dashboardWrapper.classList.add('active');
+
+    const activeIndex = agentOrder.indexOf(activeAgentName);
+
+    document.querySelectorAll('.agent-nav-item').forEach((item, index) => {
+        item.classList.remove('active', 'completed');
+        if (index < activeIndex) {
+            item.classList.add('completed');
+        } else if (index === activeIndex) {
+            item.classList.add('active');
+        }
+    });
+
+    document.querySelectorAll('.agent-dashboard').forEach(dash => dash.classList.remove('active'));
+    document.getElementById(`${activeAgentName}-dashboard`).classList.add('active');
+
+    const progressPercentage = (activeIndex / (agentOrder.length -1) ) * 100 * 0.9; // Cap at 90% before last step
+    updateJourneyProgress(progressPercentage);
+
+    // Pre-populate data for the active agent if jumping in
+    if (orderData) {
+        // This switch ensures the correct setup function is called when jumping to a stage
+        switch(activeAgentName) {
+            case 'inspector':
+                proceedToInspector(true);
+                break;
+            case 'penny':
+                proceedToPenny(true);
+                break;
+            case 'captain':
+                proceedToCaptain(true);
+                break;
+            default: // sparky
+                selectCarForNegotiation(orderData.car);
+                break;
+        }
+    }
+}
+
+
+// --- AGENT: SPARKY ---
+
+function selectCarForNegotiation(car) {
+    selectedCar = car;
+    originalPrice = car.price;
+    currentPrice = car.price;
+    discountGiven = false;
+    dealAccepted = false;
+    
+    setActiveAgent('sparky');
+    
+    document.getElementById('sparky-car-name').textContent = car.name;
+    document.getElementById('sparky-car-specs').textContent = `${car.engine} • ${new Intl.NumberFormat().format(car.mileage)} km`;
+    updateSparkyPrices();
+    document.getElementById('accept-deal-btn').disabled = false;
+    
+    const chatMessages = document.getElementById('sparky-chat-messages');
+    chatMessages.innerHTML = '';
+    const initialMessage = `Hey! I'm Sparky. I'm thrilled you liked the ${car.name}! It's listed at $${new Intl.NumberFormat().format(car.price)}, but I might be able to get you a better deal. What do you think?`;
+    addSparkyMessage(initialMessage, false);
+}
+
+function addSparkyMessage(text, isUser) {
+    const messagesContainer = document.getElementById('sparky-chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user' : ''}`;
+    let contentHTML = `<div class="message-content">${text}</div>`;
+    if (!isUser) {
+        contentHTML = `<div class="agent-avatar sparky-avatar" style="width: 40px; height: 40px; font-size: 1.2rem;">🤖</div>` + contentHTML;
+    }
+    messageDiv.innerHTML = contentHTML;
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function sendSparkyMessage() {
+    const input = document.getElementById('sparky-chat-input');
+    const message = input.value.trim();
+    if (!message) return;
+    addSparkyMessage(message, true);
+    input.value = '';
+    setTimeout(() => respondToSparkyMessage(message), 1000);
+}
+
+function respondToSparkyMessage(message) {
+    const lowerMessage = message.toLowerCase();
+    let response = '';
+    
+    if ((lowerMessage.includes('better') || lowerMessage.includes('lower') || lowerMessage.includes('discount')) && !discountGiven) {
+        const discount = Math.floor(originalPrice * 0.05);
+        currentPrice = originalPrice - discount;
+        discountGiven = true;
+        response = `You got it! I've been authorized to offer a discount. The new price is $${new Intl.NumberFormat().format(currentPrice)}. That's $${new Intl.NumberFormat().format(discount)} off!`;
+        updateSparkyPrices();
+    } else if ((lowerMessage.includes('best') || lowerMessage.includes('final')) && discountGiven) {
+        const totalDiscount = Math.floor(originalPrice * 0.1);
+        currentPrice = originalPrice - totalDiscount;
+        response = `You drive a hard bargain! My absolute best price is $${new Intl.NumberFormat().format(currentPrice)}. That's a $${new Intl.NumberFormat().format(totalDiscount)} total discount!`;
+        updateSparkyPrices();
+    } else if (lowerMessage.includes('details') || lowerMessage.includes('more')) {
+        response = `The ${selectedCar.name} is in ${selectedCar.condition} condition with ${new Intl.NumberFormat().format(selectedCar.mileage)} km. It features a ${selectedCar.engine} engine.`;
+    } else {
+        response = discountGiven ? "That's my final offer. Ready to proceed?" : "The price is firm, but it's a great value!";
+    }
+    addSparkyMessage(response, false);
+}
+
+function updateSparkyPrices() {
+    document.getElementById('sparky-current-price').textContent = '$' + new Intl.NumberFormat().format(currentPrice);
+    document.getElementById('sparky-original-price').textContent = '$' + new Intl.NumberFormat().format(originalPrice);
+    document.getElementById('sparky-savings').textContent = '$' + new Intl.NumberFormat().format(originalPrice - currentPrice);
+}
+
+function acceptSparkDeal() {
+    if (dealAccepted) return;
+    
+    document.getElementById('accept-deal-btn').disabled = true;
+    dealAccepted = true;
+
+    addSparkyMessage("I'll take it!", true);
+    
+    setTimeout(() => {
+        addSparkyMessage("Fantastic! You've got a deal. I'm handing you over to Inspector for the quality check.", false);
+        
+        setTimeout(() => {
+            proceedToInspector();
+        }, 2000);
+    }, 1000);
+}
+
+// --- AGENT: INSPECTOR ---
+
+function proceedToInspector(isJump = false) {
+    if(!isJump) setActiveAgent('inspector');
+    const inspectorDash = document.getElementById('inspector-dashboard');
+    inspectorDash.querySelector('#inspector-car-name').textContent = selectedCar.name;
+    inspectorDash.querySelector('#inspector-car-specs').textContent = `${selectedCar.engine} • ${new Intl.NumberFormat().format(selectedCar.mileage)} km`;
+    
+    Object.keys(inspectionPoints).forEach(key => {
+        const listEl = document.getElementById(`inspection-${key}`);
+        listEl.innerHTML = ''; // Clear previous results
+    });
+    document.getElementById('start-inspection-btn').classList.remove('hidden');
+    document.getElementById('inspector-score').textContent = '--%';
+}
+
+function runInspection() {
+    document.getElementById('start-inspection-btn').classList.add('hidden');
+    let totalPoints = 0;
+    let passedPoints = 0;
+    let delay = 0;
+
+    Object.entries(inspectionPoints).forEach(([category, points]) => {
+        const listEl = document.getElementById(`inspection-${category}`);
+        listEl.innerHTML = '';
+        points.forEach(point => {
+            totalPoints++;
+            const itemEl = document.createElement('li');
+            itemEl.className = 'inspection-item';
+            itemEl.innerHTML = `<span>${point}</span><div class="status-indicator"><svg class="checkmark__svg" viewBox="0 0 20 20"><path class="checkmark__path" d="M4.5 10.5l3 3 8-8"/></svg></div>`;
+            listEl.appendChild(itemEl);
+
+            setTimeout(() => {
+                itemEl.classList.add('passed');
+                passedPoints++;
+                const score = Math.round((passedPoints / totalPoints) * 100);
+                document.getElementById('inspector-score').textContent = `${score}%`;
+            }, delay);
+            delay += 200;
+        });
+    });
+
+    setTimeout(() => {
+        showNotification('Inspection Complete! Vehicle passed with 97% score.', 'success');
+        document.getElementById('inspector-score').textContent = '97%';
+        setTimeout(() => {
+             proceedToPenny();
+        }, 2000);
+    }, delay + 500);
+}
+
+// --- AGENT: PENNY ---
+
+function proceedToPenny(isJump = false) {
+    if (!isJump) setActiveAgent('penny');
+    const pennyDash = document.getElementById('penny-dashboard');
+    pennyDash.querySelector('#penny-car-name').textContent = selectedCar.name;
+    pennyDash.querySelector('#penny-car-specs').textContent = `Final Price: $${new Intl.NumberFormat().format(currentPrice)}`;
+    document.getElementById('penny-proceed-btn').classList.add('hidden');
+    document.getElementById('generate-invoice-btn').disabled = true;
+}
+
+function checkConsigneeForm() {
+    const name = document.getElementById('customer-name').value;
+    const address = document.getElementById('customer-address').value;
+    const phone = document.getElementById('customer-phone').value;
+    document.getElementById('generate-invoice-btn').disabled = !(name && address && phone);
+}
+
+function generateInvoice() {
+    const name = document.getElementById('customer-name').value;
+    const address = document.getElementById('customer-address').value;
+    const phone = document.getElementById('customer-phone').value;
+
+    const shippingTerm = document.getElementById('shipping-term-select').value;
+    const fobFee = 200;
+    const freightCost = 2000;
+    
+    let lineItems = [{ description: 'Vehicle Price', cost: currentPrice }];
+    let total = currentPrice;
+
+    switch(shippingTerm) {
+        case 'FOB':
+            lineItems.push({ description: 'FOB Service Fee', cost: fobFee });
+            total += fobFee;
+            break;
+        case 'CNF':
+            lineItems.push({ description: 'Ocean Freight (C&F)', cost: freightCost });
+            total += freightCost;
+            break;
+        case 'CIF':
+            const basePlusFreight = currentPrice + freightCost;
+            const insuranceCost = basePlusFreight * 0.02;
+            lineItems.push({ description: 'Ocean Freight', cost: freightCost });
+            lineItems.push({ description: 'Marine Insurance (2%)', cost: insuranceCost });
+            total += freightCost + insuranceCost;
+            break;
+    }
+
+    let itemsHtml = '';
+    lineItems.forEach(item => {
+        itemsHtml += `<tr class="item"><td>${item.description}</td><td>$${item.cost.toFixed(2)}</td></tr>`;
+    });
+
+    const orderId = 'OTZ-' + Math.floor(10000 + Math.random() * 90000);
+
+    const invoiceHtml = `
+        <div class="invoice-box">
+            <table>
+                <tr class="top">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td class="title">Otoz.ai</td>
+                                <td>
+                                    Order #: <strong>${orderId}</strong><br>
+                                    Created: ${new Date().toLocaleDateString()}<br>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="information">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td>
+                                    Billed To:<br>
+                                    ${name}<br>
+                                    ${address}<br>
+                                    ${phone}
+                                </td>
+                                <td>
+                                    Vehicle:<br>
+                                    ${selectedCar.name}<br>
+                                    VIN: DEMOVIN${selectedCar.id}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="heading">
+                    <td>Description</td>
+                    <td>Price</td>
+                </tr>
+                ${itemsHtml}
+                <tr class="total">
+                    <td></td>
+                    <td>Total (${shippingTerm}): $${total.toFixed(2)}</td>
+                </tr>
+            </table>
+        </div>`;
+    
+    // Store in ledger
+    orderLedger[orderId] = {
+        id: orderId,
+        car: selectedCar,
+        price: currentPrice,
+        customer: { name, address, phone },
+        stage: 'penny' // Current stage
+    };
+
+    document.getElementById('invoice-content').innerHTML = invoiceHtml;
+    document.getElementById('invoice-modal').classList.add('active');
+    document.getElementById('penny-proceed-btn').classList.remove('hidden');
+    showNotification(`Invoice ${orderId} Generated!`, 'success');
+}
+
+
+// --- AGENT: CAPTAIN ---
+
+function proceedToCaptain(isJump = false) {
+    if (!isJump) setActiveAgent('captain');
+    const captainDash = document.getElementById('captain-dashboard');
+    captainDash.querySelector('#captain-car-name').textContent = selectedCar.name;
+    captainDash.querySelector('#captain-car-specs').textContent = "Awaiting Shipment";
+    
+    const steps = captainDash.querySelectorAll('.shipping-step');
+    steps.forEach(step => step.classList.remove('completed'));
+    let stepDelay = 500;
+    steps.forEach(step => {
+        setTimeout(() => {
+            step.classList.add('completed');
+            const statusText = step.querySelector('h4').textContent;
+            captainDash.querySelector('#captain-status').textContent = statusText;
+        }, stepDelay);
+        stepDelay += 2000;
+    });
+}
+
+function finishJourney() {
+    updateJourneyProgress(100);
+    showNotification('Congratulations on your new vehicle!', 'success');
+    setTimeout(resetDemo, 2000);
+}
+
+// --- ORDER TRACKING ---
+function trackOrder(orderId) {
+    if (!orderId) return;
+
+    // Find order by full ID or by last 4/5 digits
+    const searchTerm = orderId.replace('OTZ-', '');
+    const foundOrderId = Object.keys(orderLedger).find(key => key.endsWith(searchTerm));
+    const order = orderLedger[foundOrderId];
+
+    if (order) {
+        closeModal('existing-customer-modal');
+        showNotification(`Found Order ${order.id}. Resuming your journey.`, 'info');
+        setActiveAgent(order.stage, order);
+    } else {
+        showNotification('Order not found. Please check the ID.', 'danger');
+    }
+}
+
+
+// --- EVENT LISTENERS ---
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('agent-carousel');
+
+    // Welcome Page
+    document.getElementById('start-journey-btn').addEventListener('click', startDemo);
+    document.getElementById('existing-customer-btn').addEventListener('click', showLoginPage);
+    
+    document.querySelectorAll('.agent-card').forEach(card => {
+        card.addEventListener('mouseenter', () => carousel.style.animationPlayState = 'paused');
+        card.addEventListener('mouseleave', () => carousel.style.animationPlayState = 'running');
+    });
+
+    document.querySelectorAll('.agent-tracker-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent card click
+            const input = e.target.previousElementSibling;
+            trackOrder(input.value);
+        });
+    });
+
+
+    // Modals & Login
+    document.getElementById('agent-service-modal-close').addEventListener('click', () => closeModal('agent-service-modal'));
+    document.getElementById('existing-customer-modal-close').addEventListener('click', () => closeModal('existing-customer-modal'));
+    document.getElementById('invoice-modal-close').addEventListener('click', () => closeModal('invoice-modal'));
+    document.getElementById('track-order-btn').addEventListener('click', () => {
+        trackOrder(document.getElementById('order-id-input').value);
+    });
+    document.getElementById('google-login-btn').addEventListener('click', showUserDashboard);
+    document.getElementById('apple-login-btn').addEventListener('click', showUserDashboard);
+    document.getElementById('back-to-welcome-btn').addEventListener('click', resetDemo);
+    document.getElementById('logout-btn').addEventListener('click', resetDemo);
+    
+    // Preferences
+    document.getElementById('make-filter').addEventListener('change', updateModels);
+    document.getElementById('mileage-slider').addEventListener('input', (e) => updateSliderDisplay(e.target.value, 'mileage'));
+    document.getElementById('budget-slider').addEventListener('input', (e) => updateSliderDisplay(e.target.value, 'budget'));
+    document.getElementById('find-cars-btn').addEventListener('click', showCars);
+
+    // Car Discovery
+    document.getElementById('pass-car-btn').addEventListener('click', () => swipeCar('left'));
+    document.getElementById('like-car-btn').addEventListener('click', () => swipeCar('right'));
+    document.getElementById('back-to-prefs-btn').addEventListener('click', backToPreferences);
+    
+    // Dashboards
+    document.querySelectorAll('.exit-dashboard-btn').forEach(btn => btn.addEventListener('click', resetDemo));
+    document.getElementById('user-orders-list').addEventListener('click', (e) => {
+        if(e.target.classList.contains('user-track-btn')) {
+            trackOrder(e.target.dataset.orderId);
+        }
+    });
+
+    // Sparky
+    document.getElementById('sparky-send-btn').addEventListener('click', sendSparkyMessage);
+    document.getElementById('sparky-chat-input').addEventListener('keypress', (e) => e.key === 'Enter' && sendSparkyMessage());
+    document.getElementById('accept-deal-btn').addEventListener('click', acceptSparkDeal);
+    
+    document.querySelectorAll('#sparky-quick-actions .quick-btn[data-message]').forEach(btn => btn.addEventListener('click', () => {
+        addSparkyMessage(btn.dataset.message, true);
+        setTimeout(() => respondToSparkyMessage(btn.dataset.message), 1000);
+    }));
+
+    // Inspector
+    document.getElementById('start-inspection-btn').addEventListener('click', runInspection);
+    
+    // Penny
+    document.getElementById('consignee-form').addEventListener('input', checkConsigneeForm);
+    document.getElementById('generate-invoice-btn').addEventListener('click', generateInvoice);
+    document.getElementById('penny-proceed-btn').addEventListener('click', () => {
+        showNotification('Payment Confirmed!', 'success');
+        const lastOrder = Object.keys(orderLedger).pop();
+        if(orderLedger[lastOrder]) orderLedger[lastOrder].stage = 'captain';
+        proceedToCaptain();
+    });
+    
+    // Captain
+    document.getElementById('captain-finish-btn').addEventListener('click', finishJourney);
+});
+
+</script>
+</body>
+</html>
 
