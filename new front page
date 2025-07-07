@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otoz.ai - The Future of Cross-Border Vehicle Trading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00D9FF;
+            --secondary: #FF00E5;
+            --accent: #FFE500;
+            --dark: #0A0A0F;
+            --light: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            z-index: 9999;
+            transition: transform 0.2s;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s;
+            opacity: 0.5;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            overflow: hidden;
+        }
+
+        /* Animated Background Grid */
+        .grid-bg {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(rgba(0, 217, 255, 0.1) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0, 217, 255, 0.1) 2px, transparent 2px);
+            background-size: 100px 100px;
+            animation: grid-move 20s linear infinite;
+            transform: perspective(500px) rotateX(60deg);
+        }
+
+        @keyframes grid-move {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(100px); }
+        }
+
+        /* Car Gallery for Hero */
+        .car-gallery {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-car {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            opacity: 0;
+            animation: float-diagonal 20s infinite linear;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes float-diagonal {
+            0% {
+                transform: translate(-100px, 100vh) rotate(5deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(calc(100vw + 100px), -300px) rotate(-5deg);
+                opacity: 0;
+            }
+        }
+
+        .floating-car:nth-child(1) {
+            background-image: url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&q=80');
+            animation-delay: 0s;
+            left: 0%;
+        }
+
+        .floating-car:nth-child(2) {
+            background-image: url('https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&q=80');
+            animation-delay: 4s;
+            left: 20%;
+        }
+
+        .floating-car:nth-child(3) {
+            background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&q=80');
+            animation-delay: 8s;
+            left: 40%;
+        }
+
+        .floating-car:nth-child(4) {
+            background-image: url('https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400&q=80');
+            animation-delay: 12s;
+            left: 60%;
+        }
+
+        .floating-car:nth-child(5) {
+            background-image: url('https://images.unsplash.com/photo-1494905998402-395d579af36f?w=400&q=80');
+            animation-delay: 16s;
+            left: 80%;
+        }
+
+        /* Update satellite styles for images */
+        .satellite {
+            position: absolute;
+            width: 80px;
+            height: 60px;
+            border-radius: 5px;
+            animation: orbit-reverse 20s linear infinite;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .satellite img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Hero Content */
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease infinite;
+            filter: drop-shadow(0 0 40px rgba(0, 217, 255, 0.5));
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fade-in-up 1s ease forwards 0.5s;
+            letter-spacing: 2px;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fade-in-up 1s ease forwards 0.7s;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes fade-in-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        /* Glowing CTA Button */
+        .cta-button {
+            display: inline-block;
+            padding: 20px 60px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--dark);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            animation: pulse-glow 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 217, 255, 0.5),
+                           0 0 40px rgba(0, 217, 255, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0, 217, 255, 0.8),
+                           0 0 60px rgba(0, 217, 255, 0.5);
+            }
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Stats Section */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin: 4rem 0;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fade-in-up 1s ease forwards 1s;
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            animation: count-up 2s ease forwards 1.5s;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        /* 3D Car Model Section */
+        .car-showcase {
+            position: absolute;
+            bottom: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 400px;
+            opacity: 0;
+            animation: rise-up 2s ease forwards 1.5s;
+        }
+
+        @keyframes rise-up {
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(-50px);
+            }
+        }
+
+        .car-model {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .car-model img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            opacity: 0.9;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(10deg); }
+        }
+
+        .car-model::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(0, 217, 255, 0.3) 50%, 
+                transparent 70%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* AI Agents Section */
+        .agents-section {
+            min-height: 100vh;
+            padding: 100px 20px;
+            background: linear-gradient(to bottom, var(--dark), #1B2735);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.5));
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s;
+        }
+
+        .agent-card:hover::before {
+            opacity: 1;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        .agent-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .agent-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .agent-role {
+            font-size: 1rem;
+            opacity: 0.8;
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 100px 20px;
+            background: #1B2735;
+            position: relative;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Features Grid with Car Images */
+        .feature-card {
+            background: rgba(0, 217, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), var(--bg-image);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .feature-card:nth-child(1) {
+            --bg-image: url('https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=400&q=80');
+        }
+
+        .feature-card:nth-child(2) {
+            --bg-image: url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&q=80');
+        }
+
+        .feature-card:nth-child(3) {
+            --bg-image: url('https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=400&q=80');
+        }
+
+        .feature-card:nth-child(4) {
+            --bg-image: url('https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=400&q=80');
+        }
+
+        .feature-card:nth-child(5) {
+            --bg-image: url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&q=80');
+        }
+
+        .feature-card:nth-child(6) {
+            --bg-image: url('https://images.unsplash.com/photo-1588636142475-a62d56692870?w=400&q=80');
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.2), transparent);
+            transform: scale(0);
+            transition: transform 0.5s;
+        }
+
+        .feature-card:hover::after {
+            transform: scale(2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-description {
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 20px;
+            background: var(--dark);
+            text-align: center;
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-link {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .footer-link:hover::after {
+            width: 100%;
+        }
+
+        .footer-link:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+
+        /* Process Timeline */
+        .process-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #0A0A0F 0%, #1B2735 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            padding: 50px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 80px;
+            position: relative;
+            opacity: 0;
+            animation: timeline-fade-in 0.8s forwards;
+            animation-delay: calc(var(--step) * 0.2s);
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        @keyframes timeline-fade-in {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+        }
+
+        .timeline-item:nth-child(even) {
+            animation-name: timeline-fade-in-right;
+        }
+
+        @keyframes timeline-fade-in-right {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 4px solid var(--dark);
+            z-index: 2;
+            box-shadow: 0 0 20px var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 0 30px;
+            transition: all 0.3s;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        /* Demo Section */
+        .demo-section {
+            padding: 100px 20px;
+            background: #1B2735;
+            position: relative;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .phone-mockup {
+            width: 320px;
+            height: 650px;
+            background: #222;
+            border-radius: 40px;
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            animation: phone-float 6s ease-in-out infinite;
+        }
+
+        @keyframes phone-float {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0A0A0F, #1B2735);
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #222;
+            border-radius: 20px;
+        }
+
+        .demo-car-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            animation: swipe-hint 3s ease-in-out infinite;
+        }
+
+        @keyframes swipe-hint {
+            0%, 100% { transform: translate(-50%, -50%) rotateZ(0deg); }
+            25% { transform: translate(-60%, -50%) rotateZ(-5deg); }
+            75% { transform: translate(-40%, -50%) rotateZ(5deg); }
+        }
+
+        .demo-car-image {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 10px;
+        }
+
+        .swipe-hint {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary);
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .demo-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .demo-button {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.4);
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            padding: 100px 20px;
+            background: var(--dark);
+            position: relative;
+        }
+
+        .testimonials-carousel {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .testimonial-card.active {
+            opacity: 1;
+        }
+
+        .quote-mark {
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+            top: 20px;
+            left: 40px;
+        }
+
+        .testimonial-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot.active {
+            background: var(--primary);
+            transform: scale(1.5);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 150px 20px;
+            background: linear-gradient(135deg, #1B2735 0%, #0A0A0F 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+            flex-wrap: wrap;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .cta-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 20px 50px;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: pulse-glow 2s infinite;
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            padding: 20px 50px;
+            border-radius: 50px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Orbit Animation */
+        .orbit-container {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            animation: rotate 30s linear infinite;
+        }
+
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-1 {
+            width: 150px;
+            height: 150px;
+        }
+
+        .orbit-2 {
+            width: 250px;
+            height: 250px;
+        }
+
+        .orbit-3 {
+            width: 350px;
+            height: 350px;
+        }
+
+        .planet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.5));
+        }
+
+        .satellite {
+            position: absolute;
+            font-size: 2rem;
+            animation: orbit-reverse 20s linear infinite;
+        }
+
+        .satellite-1 {
+            top: 25%;
+            left: 50%;
+            animation-delay: 0s;
+        }
+
+        .satellite-2 {
+            top: 50%;
+            left: 80%;
+            animation-delay: 6.66s;
+        }
+
+        .satellite-3 {
+            top: 75%;
+            left: 50%;
+            animation-delay: 13.33s;
+        }
+
+        @keyframes orbit-reverse {
+            0% { transform: rotate(0deg) translateX(175px) rotate(0deg); }
+            100% { transform: rotate(-360deg) translateX(175px) rotate(360deg); }
+        }
+
+        /* Enhanced Footer */
+        .footer {
+            padding: 80px 20px 20px;
+            background: var(--dark);
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo h3 {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .footer-columns {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer-column h4 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Car Showcase Section */
+        .cars-showcase-section {
+            padding: 100px 20px;
+            background: linear-gradient(to bottom, #1B2735, var(--dark));
+            position: relative;
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .car-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.3);
+            border-color: var(--primary);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .car-details {
+            padding: 25px;
+        }
+
+        .car-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .car-specs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .spec-item {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .car-location {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .tagline {
+                font-size: 1.3rem;
+            }
+            
+            .stats-container {
+                gap: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .car-showcase {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .timeline-line {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+            }
+
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 60px;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .demo-container {
+                gap: 40px;
+            }
+
+            .phone-mockup {
+                width: 280px;
+                height: 570px;
+            }
+
+            .cta-section {
+                padding: 80px 20px;
+            }
+
+            .orbit-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-columns {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Floating Navigation */
+        .floating-nav {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            animation: fade-in 1s forwards 2s;
+        }
+
+        .nav-dot-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-dot-indicator.active {
+            background: var(--primary);
+            transform: scale(1.5);
+        }
+
+        .nav-dot-indicator::before {
+            content: attr(data-section);
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-dot-indicator:hover::before {
+            opacity: 1;
+        }
+
+        /* Notification Toast */
+        .notification-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.9), rgba(255, 0, 229, 0.9));
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(-400px);
+            transition: transform 0.5s;
+            z-index: 2000;
+        }
+
+        .notification-toast.show {
+            transform: translateX(0);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            z-index: 10000;
+            transition: width 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+
+    <!-- Floating Navigation -->
+    <nav class="floating-nav">
+        <div class="nav-dot-indicator active" data-section="Home"></div>
+        <div class="nav-dot-indicator" data-section="AI Agents"></div>
+        <div class="nav-dot-indicator" data-section="Features"></div>
+        <div class="nav-dot-indicator" data-section="Process"></div>
+        <div class="nav-dot-indicator" data-section="Demo"></div>
+        <div class="nav-dot-indicator" data-section="Testimonials"></div>
+    </nav>
+
+    <!-- Notification Toast -->
+    <div class="notification-toast" id="notification">
+        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=100&q=80" alt="BMW M4" style="width: 60px; height: 40px; object-fit: cover; border-radius: 5px;">
+        <span>New BMW M4 matching your preferences just arrived!</span>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-ring"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="grid-bg"></div>
+        
+        <!-- Floating Cars Background -->
+        <div class="car-gallery">
+            <div class="floating-car"></div>
+            <div class="floating-car"></div>
+            <div class="floating-car"></div>
+            <div class="floating-car"></div>
+            <div class="floating-car"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="logo-container">
+                <h1 class="logo">OTOZ.AI</h1>
+            </div>
+            
+            <p class="tagline">The Future of Cross-Border Vehicle Trading</p>
+            
+            <p class="hero-description">
+                Experience the revolution in global car trading powered by AI. 
+                Smart negotiations, instant quality checks, seamless payments, 
+                and worldwide shipping - all automated by our intelligent agents.
+            </p>
+
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="150">0</span>
+                    <span class="stat-label">Countries</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="500">0</span>
+                    <span class="stat-label">Cars Daily</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="10">0</span>
+                    <span class="stat-label">Seconds/Deal</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="99">0</span>
+                    <span class="stat-label">% Satisfaction</span>
+                </div>
+            </div>
+
+            <a href="#start" class="cta-button">
+                Start Trading Now →
+            </a>
+        </div>
+
+        <div class="car-showcase">
+            <div class="car-model">
+                <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80" alt="Featured BMW">
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Agents Section -->
+    <section class="agents-section">
+        <h2 class="section-title">Meet Your AI Trading Team</h2>
+        
+        <div class="agents-grid">
+            <div class="agent-card" style="--i: 0;">
+                <div class="agent-icon">🤖</div>
+                <h3 class="agent-name">Sparky</h3>
+                <p class="agent-role">Discovery & Negotiation Expert</p>
+                <p style="margin-top: 1rem; opacity: 0.8;">
+                    Finds your perfect car and negotiates the best deals using advanced market analysis.
+                </p>
+            </div>
+            
+            <div class="agent-card" style="--i: 1;">
+                <div class="agent-icon">🔍</div>
+                <h3 class="agent-name">Inspector</h3>
+                <p class="agent-role">Quality Assurance Specialist</p>
+                <p style="margin-top: 1rem; opacity: 0.8;">
+                    Performs 360° inspections using computer vision to ensure vehicle quality.
+                </p>
+            </div>
+            
+            <div class="agent-card" style="--i: 2;">
+                <div class="agent-icon">💰</div>
+                <h3 class="agent-name">Penny</h3>
+                <p class="agent-role">Payment & Finance Manager</p>
+                <p style="margin-top: 1rem; opacity: 0.8;">
+                    Handles secure transactions and provides flexible financing options globally.
+                </p>
+            </div>
+            
+            <div class="agent-card" style="--i: 3;">
+                <div class="agent-icon">🚢</div>
+                <h3 class="agent-name">Captain</h3>
+                <p class="agent-role">Logistics & Shipping Master</p>
+                <p style="margin-top: 1rem; opacity: 0.8;">
+                    Coordinates worldwide shipping with real-time tracking and customs handling.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="section-title">Why Choose Otoz.ai?</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Lightning Fast</h3>
+                <p class="feature-description">
+                    Complete car purchases in minutes, not days. Our AI processes deals 100x faster than traditional methods.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3 class="feature-title">Global Reach</h3>
+                <p class="feature-description">
+                    Access vehicles from 150+ countries with automatic translation and currency conversion.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Secure & Trusted</h3>
+                <p class="feature-description">
+                    Blockchain-verified transactions and AI-powered fraud detection keep your deals safe.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3 class="feature-title">Smart Negotiations</h3>
+                <p class="feature-description">
+                    Our AI analyzes millions of data points to get you the best possible price every time.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">24/7 Availability</h3>
+                <p class="feature-description">
+                    Trade cars anytime, anywhere. Our AI agents never sleep, ensuring round-the-clock service.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Perfect Matches</h3>
+                <p class="feature-description">
+                    Advanced ML algorithms learn your preferences to find your ideal vehicle every time.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cars Showcase Section -->
+    <section class="cars-showcase-section">
+        <h2 class="section-title">Featured Vehicles</h2>
+        <div class="cars-grid">
+            <div class="car-card">
+                <img class="car-image" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Chevrolet Camaro">
+                <div class="car-details">
+                    <h3 class="car-title">2023 Chevrolet Camaro ZL1</h3>
+                    <div class="car-specs">
+                        <span class="spec-item">🏁 650 HP</span>
+                        <span class="spec-item">📏 12,000 km</span>
+                        <span class="spec-item">⚙️ Automatic</span>
+                    </div>
+                    <div class="car-price">$65,000</div>
+                    <div class="car-location">📍 Los Angeles, USA</div>
+                </div>
+            </div>
+            
+            <div class="car-card">
+                <img class="car-image" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Porsche 911">
+                <div class="car-details">
+                    <h3 class="car-title">2022 Porsche 911 Turbo S</h3>
+                    <div class="car-specs">
+                        <span class="spec-item">🏁 640 HP</span>
+                        <span class="spec-item">📏 8,500 km</span>
+                        <span class="spec-item">⚙️ PDK</span>
+                    </div>
+                    <div class="car-price">$185,000</div>
+                    <div class="car-location">📍 Stuttgart, Germany</div>
+                </div>
+            </div>
+            
+            <div class="car-card">
+                <img class="car-image" src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&q=80" alt="Mercedes-AMG GT63">
+                <div class="car-details">
+                    <h3 class="car-title">2023 Mercedes-AMG GT63</h3>
+                    <div class="car-specs">
+                        <span class="spec-item">🏁 630 HP</span>
+                        <span class="spec-item">📏 5,000 km</span>
+                        <span class="spec-item">⚙️ AMG Speed</span>
+                    </div>
+                    <div class="car-price">$145,000</div>
+                    <div class="car-location">📍 Munich, Germany</div>
+                </div>
+            </div>
+            
+            <div class="car-card">
+                <img class="car-image" src="https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=600&q=80" alt="Tesla Model S">
+                <div class="car-details">
+                    <h3 class="car-title">2023 Tesla Model S Plaid</h3>
+                    <div class="car-specs">
+                        <span class="spec-item">⚡ 1020 HP</span>
+                        <span class="spec-item">📏 15,000 km</span>
+                        <span class="spec-item">🔋 Electric</span>
+                    </div>
+                    <div class="car-price">$89,990</div>
+                    <div class="car-location">📍 Tokyo, Japan</div>
+                </div>
+            </div>
+            
+            <div class="car-card">
+                <img class="car-image" src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=600&q=80" alt="Lamborghini Huracán">
+                <div class="car-details">
+                    <h3 class="car-title">2022 Lamborghini Huracán EVO</h3>
+                    <div class="car-specs">
+                        <span class="spec-item">🏁 640 HP</span>
+                        <span class="spec-item">📏 7,200 km</span>
+                        <span class="spec-item">⚙️ LDF</span>
+                    </div>
+                    <div class="car-price">$245,000</div>
+                    <div class="car-location">📍 Milan, Italy</div>
+                </div>
+            </div>
+            
+            <div class="car-card">
+                <img class="car-image" src="https://images.unsplash.com/photo-1494905998402-395d579af36f?w=600&q=80" alt="BMW M8">
+                <div class="car-details">
+                    <h3 class="car-title">2022 BMW M8 Competition</h3>
+                    <div class="car-specs">
+                        <span class="spec-item">🏁 617 HP</span>
+                        <span class="spec-item">📏 18,000 km</span>
+                        <span class="spec-item">⚙️ M Steptronic</span>
+                    </div>
+                    <div class="car-price">$135,000</div>
+                    <div class="car-location">📍 London, UK</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Timeline Section -->
+    <section class="process-section">
+        <h2 class="section-title">How It Works</h2>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            <div class="timeline-item" data-step="1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>🔍 Discover</h3>
+                    <p>AI scans global inventory to find your perfect match</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-step="2">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>🤝 Negotiate</h3>
+                    <p>Smart algorithms secure the best price automatically</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-step="3">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>✅ Inspect</h3>
+                    <p>360° quality check with computer vision technology</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-step="4">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>💳 Pay</h3>
+                    <p>Secure blockchain-verified payment processing</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-step="5">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>🚚 Ship</h3>
+                    <p>Real-time tracking from seller to your doorstep</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section class="demo-section">
+        <h2 class="section-title">Experience The Magic</h2>
+        <div class="demo-container">
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="demo-car-card">
+                        <div class="demo-car-image">🚗</div>
+                        <div class="demo-car-info">
+                            <h4>2023 Tesla Model 3</h4>
+                            <p>15,000 km • Tokyo, Japan</p>
+                            <div class="price-tag">$35,000</div>
+                        </div>
+                        <div class="swipe-hint">← Swipe →</div>
+                    </div>
+                </div>
+                <div class="phone-notch"></div>
+            </div>
+            <div class="demo-text">
+                <h3>Try Our AI-Powered Discovery</h3>
+                <p>Swipe through millions of vehicles worldwide. Our AI learns your preferences in real-time.</p>
+                <button class="demo-button">Launch Demo →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <h2 class="section-title">Success Stories</h2>
+        <div class="testimonials-carousel">
+            <div class="testimonial-card active">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">Found my dream BMW in Germany and had it shipped to California in just 10 days. The AI negotiated a 15% discount!</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👨</div>
+                    <div>
+                        <h4>Michael Chen</h4>
+                        <p>San Francisco, USA</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-nav">
+                <span class="nav-dot active"></span>
+                <span class="nav-dot"></span>
+                <span class="nav-dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Trade Smarter?</h2>
+            <p class="cta-subtitle">Join thousands of smart traders using AI to buy cars globally</p>
+            <div class="cta-buttons">
+                <button class="cta-primary">Start Free Trial</button>
+                <button class="cta-secondary">Watch Demo</button>
+            </div>
+            <div class="trust-badges">
+                <div class="badge">🔒 Bank-Level Security</div>
+                <div class="badge">🌍 150+ Countries</div>
+                <div class="badge">⚡ 10-Second Deals</div>
+            </div>
+        </div>
+        <div class="cta-visual">
+            <div class="orbit-container">
+                <div class="orbit orbit-1"></div>
+                <div class="orbit orbit-2"></div>
+                <div class="orbit orbit-3"></div>
+                <div class="planet">🌍</div>
+                <div class="satellite satellite-1" style="top: 20%; left: 50%; animation-delay: 0s;">
+                    <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=200&q=80" alt="Car">
+                </div>
+                <div class="satellite satellite-2" style="top: 50%; left: 85%; animation-delay: 6.66s;">
+                    <img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=200&q=80" alt="Car">
+                </div>
+                <div class="satellite satellite-3" style="top: 80%; left: 50%; animation-delay: 13.33s;">
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=200&q=80" alt="Car">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>OTOZ.AI</h3>
+                <p>Revolutionizing Global Car Trade</p>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <a href="#">Features</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">API</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Press</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Support</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">𝕏</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">▶</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Otoz.ai - All rights reserved</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                follower.style.left = e.clientX - 10 + 'px';
+                follower.style.top = e.clientY - 10 + 'px';
+            }, 100);
+        });
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Count up animation
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200;
+
+        const countUp = () => {
+            counters.forEach(counter => {
+                const animate = () => {
+                    const value = +counter.getAttribute('data-target');
+                    const data = +counter.innerText;
+                    const time = value / speed;
+
+                    if (data < value) {
+                        counter.innerText = Math.ceil(data + time);
+                        setTimeout(animate, 10);
+                    } else {
+                        counter.innerText = value;
+                    }
+                }
+                animate();
+            });
+        }
+
+        // Trigger count up when in viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    countUp();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        document.querySelector('.stats-container').querySelectorAll('.stat-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.grid-bg');
+            parallax.style.transform = `perspective(500px) rotateX(60deg) translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Hover effects
+        document.querySelectorAll('a, button').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+                follower.style.transform = 'scale(1.5)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                follower.style.transform = 'scale(1)';
+            });
+        });
+
+        // Timeline animations on scroll
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.setProperty('--step', index);
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        timelineItems.forEach((item, index) => {
+            item.style.setProperty('--step', index);
+            timelineObserver.observe(item);
+        });
+
+        // Floating navigation
+        const sections = document.querySelectorAll('section');
+        const navDots = document.querySelectorAll('.nav-dot-indicator');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = index;
+                }
+            });
+
+            navDots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === current) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            document.querySelector('.scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Show notification after 5 seconds
+        setTimeout(() => {
+            document.getElementById('notification').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('notification').classList.remove('show');
+            }, 5000);
+        }, 5000);
+
+        // Testimonial carousel
+        const testimonials = [
+            {
+                text: "Found my dream BMW in Germany and had it shipped to California in just 10 days. The AI negotiated a 15% discount!",
+                author: "Michael Chen",
+                location: "San Francisco, USA"
+            },
+            {
+                text: "The inspection AI caught issues I would have never noticed. Saved me from a bad deal. Absolutely revolutionary!",
+                author: "Sarah Johnson",
+                location: "London, UK"
+            },
+            {
+                text: "Bought 5 cars for my rental business. The bulk negotiation AI got me fleet pricing without the hassle!",
+                author: "Koji Tanaka",
+                location: "Tokyo, Japan"
+            }
+        ];
+
+        let currentTestimonial = 0;
+        const testimonialCard = document.querySelector('.testimonial-card');
+        const testimonialText = document.querySelector('.testimonial-text');
+        const authorName = document.querySelector('.testimonial-author h4');
+        const authorLocation = document.querySelector('.testimonial-author p');
+        const testimonialDots = document.querySelectorAll('.nav-dot');
+
+        function updateTestimonial(index) {
+            testimonialCard.classList.remove('active');
+            setTimeout(() => {
+                testimonialText.textContent = testimonials[index].text;
+                authorName.textContent = testimonials[index].author;
+                authorLocation.textContent = testimonials[index].location;
+                testimonialCard.classList.add('active');
+                
+                testimonialDots.forEach(dot => dot.classList.remove('active'));
+                testimonialDots[index].classList.add('active');
+            }, 300);
+        }
+
+        testimonialDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentTestimonial = index;
+                updateTestimonial(index);
+            });
+        });
+
+        // Auto-rotate testimonials
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            updateTestimonial(currentTestimonial);
+        }, 5000);
+
+        // Enhanced cursor effects for new elements
+        document.querySelectorAll('.timeline-content, .demo-button, .cta-primary, .cta-secondary, .social-link').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+                follower.style.transform = 'scale(1.5)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                follower.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add gradient animation to CTA buttons
+        const ctaButtons = document.querySelectorAll('.cta-primary, .demo-button');
+        ctaButtons.forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                button.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 229, 0, 0.3), transparent), linear-gradient(45deg, var(--primary), var(--secondary))`;
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.background = 'linear-gradient(45deg, var(--primary), var(--secondary))';
+            });
+        });
+    </script>
+</body>
+</html>
